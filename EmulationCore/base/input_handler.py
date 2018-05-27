@@ -31,7 +31,7 @@ def ivi_get_default_output_mechanism() -> type(_default_output_mechanism):
 def _ivi_output_via_default(data, log=False):
     # Error here
     # Engine Run Loop has already started thing.
-    _default_output_mechanism.write_data(data)
+    # _default_output_mechanism.write_data(data)
     if log:
         print(data)
 
