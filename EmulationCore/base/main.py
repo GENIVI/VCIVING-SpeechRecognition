@@ -1,14 +1,16 @@
 # This is the main thread of the program / base of the entire system
 import base.input_handler as input_handler
 import base.output_handler as output_handler
+import base.consts.prediction_model
 from threading import Thread
+
 
 # Initializes all the outputs(mechanisms)
 output_handler.ivi_init_outputs()
 _output_speaker = output_handler.ivi_get_speaker()
 
 # Initializes all the inputs(mechanisms)
-input_handler.ivi_init_inputs(_output_speaker)
+input_handler.ivi_init_inputs(_output_speaker, base.consts.prediction_model.model_filepath, base.consts.prediction_model.prediction_threshold, base.consts.prediction_model.tasks_namespaces_folderpath)
 
 # Temporary content which is to be changed in the coming days
 ivi_shutdown = False
@@ -30,6 +32,12 @@ def grab_user_input():
                     to_utter += " " + splitted_item
 
                 _output_speaker.write_data(to_utter)
+            elif splitted_command[0].lower() == "exec_mic":
+                to_proc = ""
+                for splitted_item in splitted_command[1:]:
+                    to_proc += " " + splitted_item
+
+                input_handler.input_processor.process_data(input_handler.InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, to_proc)
 
 
 typed_input_thread = Thread(target=grab_user_input)
