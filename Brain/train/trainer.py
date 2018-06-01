@@ -7,8 +7,9 @@ import keywords.model
 
 class Trainer:
 
-    def __init__(self, trained_preprocessor, train_verbose=False):
+    def __init__(self, trained_preprocessor, tasks_namespaces_folderpath, train_verbose=False):
         self._trained_preprocessor = trained_preprocessor
+        self._tasks_namespaces_folderpath = tasks_namespaces_folderpath
         self._train_verbose = train_verbose
 
         self._training_start_time = None
@@ -40,25 +41,22 @@ class Trainer:
         return output * (1 - output)
 
     def _next_feature_batch(self, batch_size):
-        return_features_batch = []
-        return_labels_batch = []
-
         next_batch_end = self._ptr_next_batch_begin + batch_size
         if next_batch_end > len(self._list_features):
-            return_feature_batch = self._list_features[self._ptr_next_batch_begin:len(self._list_features)]
+            return_features_batch = self._list_features[self._ptr_next_batch_begin:len(self._list_features)]
             return_labels_batch = self._list_labels[self._ptr_next_batch_begin:len(self._list_features)]
 
             count_from_beginning = next_batch_end - len(self._list_features)
 
             feature_batch_from_beginning = self._list_features[0:count_from_beginning]
-            return_feature_batch.extend(feature_batch_from_beginning)
+            return_features_batch.extend(feature_batch_from_beginning)
 
             labels_batch_from_beginning = self._list_labels[0:count_from_beginning]
             return_labels_batch.extend(labels_batch_from_beginning)
 
             self._ptr_next_batch_begin = count_from_beginning
         else:
-            return_feature_batch = self._list_features[self._ptr_next_batch_begin:next_batch_end]
+            return_features_batch = self._list_features[self._ptr_next_batch_begin:next_batch_end]
             return_labels_batch = self._list_labels[self._ptr_next_batch_begin:next_batch_end]
 
             # Checking whether all features are obtained
@@ -67,9 +65,12 @@ class Trainer:
 
             self._ptr_next_batch_begin = next_batch_end
 
-        return return_feature_batch, return_labels_batch
+        return return_features_batch, return_labels_batch
 
     def train(self, hidden_neurons=10, alpha=1, epochs=100, batch_size=None, iterations=100, dropout=False, dropout_percent=0.5):
+        if not self._trained_preprocessor.validate_tasks_directory(self._tasks_namespaces_folderpath):
+            raise Exception("Tasks directory is invalid or does not contain all the namespaces.")
+
         self._training_start_time = time.time()
         self._training_end_time = None
 

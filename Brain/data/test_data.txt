@@ -1,7 +1,7 @@
-drive me somewhere	drive
-go to workstation	drive
-find me hotels	find_maps
-go to a bar	drive
-can we find a workstation	find_maps
-move my car to home	drive
-find my home	find_maps
+drive me somewhere	DriveExecutor
+go to workstation	DriveExecutor
+find me hotels	FindMapsExecutor
+go to a bar	DriveExecutor
+can we find a workstation	FindMapsExecutor
+move my car to home	DriveExecutor
+find my home	FindMapsExecutor

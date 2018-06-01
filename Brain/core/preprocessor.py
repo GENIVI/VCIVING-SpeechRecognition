@@ -1,9 +1,13 @@
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
+import file_reader
+import os
 
 
 class PreProcessor:
 
+    # nl_features : Sentences
+    # text_labels : Python namespaces for the file to be mapped for respective sentence
     def __init__(self, nl_features, text_labels, stem_blacklist_words):
         self._nl_features = nl_features
         self._text_labels = text_labels
@@ -80,6 +84,17 @@ class PreProcessor:
 
     def get_unique_wordlist(self):
         return self._word_list
+
+    def validate_tasks_directory(self, tasks_directory_path):
+        if os.path.exists(tasks_directory_path):
+            for unique_label in self._unique_labels_list:
+                unique_label_task_file = tasks_directory_path + "/" + unique_label + ".py"
+                if not os.path.exists(unique_label_task_file):
+                    return False
+
+            return True
+        else:
+            return False
 
     def get_sentence_patterns(self, sentence):
         tokenized_words = nltk.word_tokenize(sentence)

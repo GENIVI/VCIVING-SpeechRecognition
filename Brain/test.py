@@ -6,7 +6,7 @@ import file_reader
 _test_data_filepath = consts.data_dir_path + "/test_data.txt"
 _prediction_threshold = 0.2
 
-predictor = Predictor(consts.model_savefile_path, _prediction_threshold)
+predictor = Predictor(model_filepath=consts.model_savefile_path, prediction_threshold=_prediction_threshold)
 
 test_sentences, expected_labels = file_reader.read_file_as_dataset(_test_data_filepath)
 

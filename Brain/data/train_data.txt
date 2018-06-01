@@ -1,6 +1,6 @@
-drive me home	drive
-drive me to my workplace	drive
-lets go to our cousin's place	drive
-find me a gas station	find_maps
-search for restaurants around	find_maps
-look for railway station	find_maps
+drive me home	DriveExecutor
+drive me to my workplace	DriveExecutor
+lets go to our cousin's place	DriveExecutor
+find me a gas station	FindMapsExecutor
+search for restaurants around	FindMapsExecutor
+look for railway station	FindMapsExecutor
