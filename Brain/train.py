@@ -1,7 +1,7 @@
 import consts
 import file_reader
 from core.preprocessor import PreProcessor
-from train.trainer import Trainer
+from core.trainer import Trainer
 from core.predictor import Predictor
 import numpy as np
 

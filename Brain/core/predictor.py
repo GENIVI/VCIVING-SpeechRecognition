@@ -5,7 +5,7 @@ import json
 import numpy as np
 import keywords.model
 from core.preprocessor import PreProcessor
-from train.trainer import Trainer
+from core.trainer import Trainer
 
 
 class Predictor:
