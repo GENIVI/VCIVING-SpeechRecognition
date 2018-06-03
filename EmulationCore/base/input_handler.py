@@ -1,93 +1,57 @@
 # This handles all the inputs and processes them as necessary.
 import speech_recognition as SR
+from base import output_handler
 from ins.mechanisms.microphone import InputMicrophone
-from threading import Thread
-from outs.outs_mechanism import OutputMechanism
 from base.input_processor import InputProcessor
 
 # This is the default output mechanism used to output anything in the input processing section.
 
-_default_output_mechanism : OutputMechanism = None
+# Following variables defines all the input mechanisms here.
+_microphone_input : InputMicrophone = None
+
+_output_handler_namespace : output_handler = None
 input_processor : InputProcessor = None
 
 
-def ivi_init_inputs(default_output_mechanism, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath):
-    global _default_output_mechanism, input_processor
-    _default_output_mechanism = default_output_mechanism
+# Initializes all the input mechanisms
+# output_handler_namespace: The namespace of completely initialized output_handler.py
+# prediction_model_filepath:   The path to the file(model) which is used to interpret the user inputs
+#                               (natural language inputs)
+# prediction_threshold: The value at which a certain interpretation(prediction) done through the model is accepted as
+#                       as correct prediction even though it is the highest among others. This value lies within 0 and 1
+#                       i.e. 0.0 <= prediction_threshold <= 1.0
+#                       This is a float value.
+# tasks_namespaces_folderpath:  The path to the folder containing all the classes implementing the tasks given by the
+#                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
+#                               documentation.
+def ivi_init_inputs(output_handler_namespace : output_handler, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath):
+    global _output_handler_namespace, input_processor, _microphone_input
+    _output_handler_namespace = output_handler_namespace
 
-    input_processor = InputProcessor(ivi_output_via_default, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath)
+    # Initializes the InputProcessor
+    input_processor = InputProcessor(output_handler_namespace, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath)
 
     # Initialize the Microphone
-    ivi_init_microphone()
+    def _ivi_process_microphone_data(heard_text, exception):
+        if exception is None:
+            print("Read from Microphone: " + heard_text)
+            input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, heard_text)
+        else:
+            if exception == SR.UnknownValueError:
+                pass
+            elif exception == SR.RequestError:
+                output_handler_namespace.output_via_mechanism(mechanism=output_handler.default_output_mechanism, data="Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True, log=True)
+    _microphone_input = InputMicrophone(_ivi_process_microphone_data)
+    _microphone_input.start_listening()
 
 
-# Sets the default output mechanism used to output anything in the input processing section.
-def ivi_set_default_output_mechanism(default_output_mechanism):
-    global _default_output_mechanism
-    _default_output_mechanism = default_output_mechanism
+# Starts all the input mechanisms and asks them to grab the inputs.
+def ivi_start_inputs():
+    _microphone_input.start_listening()
+    # Start all other input mechanisms
 
 
-# Returns the default output mechanism used to output anything in the input processing section.
-def ivi_get_default_output_mechanism() -> type(_default_output_mechanism):
-    return _default_output_mechanism
-
-
-def ivi_output_via_default(data, log=False):
-    # Pauses the microphone just to prevent it from hearing itself.
-    global _microphone_pause
-    _microphone_pause = True
-    _default_output_mechanism.write_data(data)
-    _microphone_pause = False
-    if log:
-        print(data)
-
-
-##
-#  MICROPHONE
-##
-
-# The following variables defines the Microphone input behaviour
-_microphone_input = None
-# If following variable is set to True, the microphone exits its listening state.
-# In order to re-state the microphone to listening state, call ivi_init_microphone()
-_microphone_stop = False
-# If the following variable is set to True, the microphone will stay calm and quiet, without listening to anything.
-# But this would never make the microphone to leave its listening state, it just sits there are waits.
-# In order to resume the action of the microphone, set this to True
-_microphone_pause = False
-
-
-# Microphone Methods
-def ivi_init_microphone():
-    global _microphone_stop
-
-    _microphone_stop = False
-
-    def _ivi_listener_run():
-        global _microphone_input
-
-        _microphone_input = InputMicrophone()
-        ivi_output_via_default("Initialization successful. Waiting for Commands...", log=True)
-        while not _microphone_stop:
-            if not _microphone_pause:
-                try:
-                    spoken_str = _microphone_input.read_data()
-                    print("Read from Microphone: " + spoken_str)
-                    input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, spoken_str)
-
-                except SR.UnknownValueError:
-                    pass
-
-                except SR.RequestError:
-                    ivi_output_via_default("Google Cloud API Error.", log=True)
-
-    listener_thread = Thread(target=_ivi_listener_run)
-    listener_thread.daemon = True
-    listener_thread.start()
-
-
-def ivi_stop_microphone():
-    global _microphone_stop
-    _microphone_stop = True
-    ivi_output_via_default("Microphone Listener Ended.", log=True)
-# End of Microphone Methods.
+# Stops all the input mechanisms from grabbing the inputs.
+def ivi_stop_inputs(kill_permanently=False):
+    _microphone_input.stop_listening(kill_permanently=kill_permanently)
+    # Stop all other input mechanisms

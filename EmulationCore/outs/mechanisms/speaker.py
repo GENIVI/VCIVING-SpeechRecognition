@@ -24,12 +24,16 @@ class OutputSpeaker(OutputMechanism):
         self._speaker_engine.setProperty(OutputSpeaker.speaker_engine_prop_rate, speech_rate)
 
     # Asks the Speaker to speak the given data.
-    # data A String to be spoken through the speaker.
+    # data: A String to be spoken through the speaker.
     # Set wait_to_finish to True if you need to wait to return until the speaker completes speaking, False otherwise.
     # No exceptions are thrown.
-    def write_data(self, data):
+    def write_data(self, data, wait_until_completed=False):
         # Add to the queue
         self._data_queue.append(data)
+
+        # If wait_until_completed is true, wait until the queue is emptied.
+        while wait_until_completed and len(self._data_queue) != 0:
+            pass
 
     # This method is called by output_handler and should not be called elsewhere.
     # Speaks out all the data in the queue.

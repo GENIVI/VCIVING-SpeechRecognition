@@ -1,3 +1,4 @@
+from base import output_handler
 from core.predictor import Predictor
 
 
@@ -7,8 +8,8 @@ class InputProcessor:
 
     OUTPUT_DATA_INTERPRET_FAILED = "Failed to recognize the command."
 
-    def __init__(self, ivi_output_via_default, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath):
-        self._ivi_output_via_default = ivi_output_via_default
+    def __init__(self, output_handler_namespace : output_handler, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath):
+        self._output_handler_namespace = output_handler_namespace
         self._predictor = Predictor(model_filepath=prediction_model_filepath, prediction_threshold=prediction_threshold)
 
         self._INIT_SUCCESS = self._predictor.run_validation_on_namespace_dir(tasks_namespaces_folderpath)
@@ -23,9 +24,10 @@ class InputProcessor:
                     prediction_executor = self._class_namespaces[prediction]
                     prediction_executor.run(data)
                 else:
+                    pass
                     # Output via the default output that given data cannot be interpreted
                     # Otherwise just return something from the function that would say the data cannot be interpreted.
-                    self._ivi_output_via_default(InputProcessor.OUTPUT_DATA_INTERPRET_FAILED, log=True)
+                    # self._output_handler_namespace.output_via_mechanism(output_handler.default_output_mechanism, InputProcessor.OUTPUT_DATA_INTERPRET_FAILED, wait_until_completed=True, log=True)
             # Other process types goes here.
         else:
             raise Exception("Initialization has been failed.")
