@@ -46,6 +46,5 @@ typed_input_thread = Thread(target=grab_text_input)
 typed_input_thread.daemon = True
 typed_input_thread.start()
 
-# Thread errors here.
 while not ivi_shutdown:
     output_handler.ivi_run_outputs()
