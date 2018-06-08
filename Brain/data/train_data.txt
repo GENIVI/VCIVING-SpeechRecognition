@@ -10,3 +10,7 @@ go to work  DriveExecutor
 go back home  DriveExecutor
 get me home DriveExecutor
 lets drive  DriveExecutor
+lets ride DriveExecutor
+lets roll DriveExecutor
+ride on DriveExecutor
+driving time  DriveExecutor
