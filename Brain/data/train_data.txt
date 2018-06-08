@@ -4,7 +4,9 @@ lets go to our cousin's place	DriveExecutor
 find me a gas station	FindMapsExecutor
 search for restaurants around	FindMapsExecutor
 look for railway station	FindMapsExecutor
-drive me back home  DriveExecutor
-drive to work DriveExecutor
+drive me back  DriveExecutor
+drive quickly DriveExecutor
 go to work  DriveExecutor
 go back home  DriveExecutor
+get me home DriveExecutor
+lets drive  DriveExecutor
