@@ -6,9 +6,15 @@
 import speech_recognition as SR
 from threading import Thread
 from ..ins_mechanism import InputMechanism
+import time
 
 
 class InputMicrophone(InputMechanism):
+
+    # Following time is the time which the thread should wait after one cycle of listening to microphone.
+    # It is used to prevent microphone and the thread being overloaded with instructions and malfunctioning.
+    # 1 second = 1000 milliseconds
+    TIME_SLEEP_PER_CYCLE = 0.01
 
     # Constructor
     # on_listen :   The callback function to be called when the microphone hears some input from the user. This function
@@ -50,6 +56,7 @@ class InputMicrophone(InputMechanism):
         def _exec_listener():
             while self._system_alive:
                 _recognize_speech_to_audio()
+                time.sleep(self.TIME_SLEEP_PER_CYCLE)
 
         listener_thread = Thread(target=_exec_listener)
         listener_thread.daemon = True
