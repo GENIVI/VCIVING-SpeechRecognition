@@ -1,7 +1,0 @@
-drive me somewhere	DriveExecutor
-go to workstation	DriveExecutor
-find me hotels	FindMapsExecutor
-go to a bar	DriveExecutor
-can we find a workstation	FindMapsExecutor
-move my car to home	DriveExecutor
-find my home	FindMapsExecutor

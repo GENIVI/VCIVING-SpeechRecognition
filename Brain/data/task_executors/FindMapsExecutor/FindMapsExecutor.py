@@ -1,4 +1,4 @@
-from data.abstracts.TaskExecutor import TaskExecutor
+from TaskExecutor import TaskExecutor
 
 
 class FindMapsExecutor(TaskExecutor):

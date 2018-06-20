@@ -1,4 +1,24 @@
 
+extension_text = "txt"
+extension_json = "json"
+
 data_dir_path = "data"
 model_dir_path = "model"
 model_savefile_path = model_dir_path + "/model.json"
+
+TASKS_STRUCT_FILE_FILENAME = "struct.json"
+TASKS_STRUCT_FILE_PROP_ABSTRACT = "abstract"
+TASKS_STRUCT_FILE_PROP_ABSTRACT_PACKAGE = "package"
+TASKS_STRUCT_FILE_PROP_ABSTRACT_NAMESPACE = "namespace"
+TASKS_STRUCT_FILE_PROP_ABSTRACT_CLASS = "class"
+TASKS_STRUCT_FILE_PROP_DEP_DIRS = "dependency_directories"
+TASKS_STRUCT_FILE_PROP_EXECUTORS = "executors"
+TASKS_STRUCT_FILE_PROP_EXECUTORS_NAMESPACE = "namespace"
+TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS = "class"
+TASKS_STRUCT_FILE_PROP_EXECUTORS_PARAMS = "parameters"
+
+TASKS_STRUCT_FILE_BASIC_PROPERTY_KEYS = [
+    TASKS_STRUCT_FILE_PROP_ABSTRACT,
+    TASKS_STRUCT_FILE_PROP_DEP_DIRS,
+    TASKS_STRUCT_FILE_PROP_EXECUTORS,
+]

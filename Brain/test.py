@@ -3,7 +3,7 @@ from statistics import mean
 from core.predictor import Predictor
 import file_reader
 
-_test_data_filepath = consts.data_dir_path + "/test_data.txt"
+_test_data_filepath = consts.data_dir_path + "/test_data.json"
 _prediction_threshold = 0.2
 
 predictor = Predictor(model_filepath=consts.model_savefile_path, prediction_threshold=_prediction_threshold)

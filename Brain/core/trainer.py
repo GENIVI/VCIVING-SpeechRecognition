@@ -68,7 +68,8 @@ class Trainer:
         return return_features_batch, return_labels_batch
 
     def train(self, hidden_neurons=10, alpha=1, epochs=100, batch_size=None, iterations=100, dropout=False, dropout_percent=0.5):
-        if not self._trained_preprocessor.validate_tasks_directory(self._tasks_namespaces_folderpath):
+        validation_state, _ = self._trained_preprocessor.validate_tasks_directory(self._tasks_namespaces_folderpath)
+        if not validation_state:
             raise Exception("Tasks directory is invalid or does not contain all the namespaces.")
 
         self._training_start_time = time.time()

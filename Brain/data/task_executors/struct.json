@@ -1,0 +1,22 @@
+{
+  "abstract": {
+    "package" : "abstracts",
+    "namespace": "TaskExecutor",
+    "class": "TaskExecutor"
+  },
+  "dependency_directories": [
+
+  ],
+  "executors": [
+    {
+      "namespace" : "DriveExecutor",
+      "class": "DriveExecutor",
+      "parameters": [ "data" ]
+    },
+    {
+      "namespace" : "FindMapsExecutor",
+      "class": "FindMapsExecutor",
+      "parameters": [ "data" ]
+    }
+  ]
+}

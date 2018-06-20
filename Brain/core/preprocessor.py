@@ -1,6 +1,7 @@
+import consts
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
-import file_reader
+import json
 import os
 
 
@@ -87,14 +88,37 @@ class PreProcessor:
 
     def validate_tasks_directory(self, tasks_directory_path):
         if os.path.exists(tasks_directory_path):
-            for unique_label in self._unique_labels_list:
-                unique_label_task_file = tasks_directory_path + "/" + unique_label + ".py"
-                if not os.path.exists(unique_label_task_file):
-                    return False
+            structure_definitions_filepath = tasks_directory_path + "/" + consts.TASKS_STRUCT_FILE_FILENAME
 
-            return True
+            if os.path.exists(structure_definitions_filepath):
+                structure_definitions_file_data = open(structure_definitions_filepath).read()
+                structure_definitions_file_data = json.loads(structure_definitions_file_data)
+
+                if all(basic_prop in structure_definitions_file_data for basic_prop in consts.TASKS_STRUCT_FILE_BASIC_PROPERTY_KEYS):
+
+                    all_executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
+
+                    for executor in all_executors:
+                        executor_folder = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_NAMESPACE]
+                        executor_folder_path = tasks_directory_path + "/" + executor_folder
+
+                        if os.path.exists(executor_folder_path):
+                            executor_name = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS]
+                            executor_file_name = executor_name + ".py"
+                            executor_file_path = executor_folder_path + "/" + executor_file_name
+
+                            if not os.path.exists(executor_file_path):
+                                return False, "Class File: " + executor_name + " cannot be found inside the Namespace Folder: " + executor_folder + "."
+                        else:
+                            return False, "Namespace folder: " + executor_folder + " not found."
+
+                    return True, "Success"
+                else:
+                    return False, "One or more of the following required entries are not found in the " + consts.TASKS_STRUCT_FILE_FILENAME + ".\n" + consts.TASKS_STRUCT_FILE_PROP_DEP_DIRS + ", " + consts.TASKS_STRUCT_FILE_PROP_EXECUTORS
+            else:
+                return False, consts.TASKS_STRUCT_FILE_FILENAME + " does not exist inside " + tasks_directory_path +".\nPlease make sure the tasks executors folder path you've given contains valid TaskExecutors."
         else:
-            return False
+            return False, tasks_directory_path + " is an invalid directory."
 
     def get_sentence_patterns(self, sentence):
         tokenized_words = nltk.word_tokenize(sentence)

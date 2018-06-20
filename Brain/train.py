@@ -5,7 +5,7 @@ from core.trainer import Trainer
 from core.predictor import Predictor
 import numpy as np
 
-_train_data_filepath = consts.data_dir_path + "/train_data.txt"
+_train_data_filepath = consts.data_dir_path + "/train_data.json"
 _train_stem_ignore_filepath = consts.data_dir_path + "/train_stem_ignore.txt"
 _tasks_namespaces_folderpath = "data/task_executors"
 
@@ -26,7 +26,7 @@ data_preproc.tokenize_and_stem()
 data_preproc.convert_to_patterns()
 
 # Checking for the validity of the implements Tasks
-# Synapses and prediction threshold are not important here.
+# Synapses and prediction threshold are not important here, just leave them at any arbitrary values.
 empty_synapses = np.empty([1, 1])
 arbitary_prediction_threshold = 0.2
 validator_predictor = Predictor(trained_preprocessor=data_preproc, synapse0=empty_synapses, synapse1=empty_synapses, prediction_threshold=arbitary_prediction_threshold)
