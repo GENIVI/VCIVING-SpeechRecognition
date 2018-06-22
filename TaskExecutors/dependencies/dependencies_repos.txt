@@ -1,0 +1,5 @@
+simpleaudio = https://github.com/hamiltron/py-simple-audio
+pydub = https://github.com/jiaaro/pydub
+# Google-Search-API = https://github.com/abenassi/Google-Search-API
+Python Magic Bin = https://github.com/julian-r/python-magic
+eye3D = https://github.com/nicfit/eyeD3

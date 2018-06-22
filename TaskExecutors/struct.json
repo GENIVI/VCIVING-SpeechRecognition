@@ -1,0 +1,28 @@
+{
+  "abstract": {
+    "package" : "abstracts",
+    "namespace": "TaskExecutor",
+    "class": "TaskExecutor"
+  },
+  "dependency_directories": [
+    "dependencies"
+  ],
+  "executors": [
+    {
+      "namespace" : "DriveExecutor",
+      "class": "DriveExecutor"
+    },
+    {
+      "namespace" : "FindMapsExecutor",
+      "class": "FindMapsExecutor"
+    },
+    {
+      "namespace" : "MusicPlayExecutor",
+      "class": "MusicPlayExecutor"
+    },
+    {
+      "namespace" : "PodcastPlayExecutor",
+      "class": "PodcastPlayExecutor"
+    }
+  ]
+}

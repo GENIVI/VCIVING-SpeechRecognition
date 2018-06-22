@@ -1,9 +1,10 @@
-from data.abstracts.TaskExecutor import TaskExecutor
+from TaskExecutor import TaskExecutor
 import nltk
 from nltk.tag import StanfordNERTagger
 
 
-class FindMapsExecutor(TaskExecutor):
+class DriveExecutor(TaskExecutor):
+
     # Absolute paths of the Classifier and Stanford NER JAR File
     NER_CLASSIFIER_PATH = "D:/GENIVI/Projects/TaskExecutors/data/task_executors/dependencies/entity_recognition/classifiers/english.muc.7class.distsim.crf.ser.gz"
     NER_JAR_PATH = "D:/GENIVI/Projects/TaskExecutors/data/task_executors/dependencies/entity_recognition/stanford-ner.jar"
@@ -31,8 +32,9 @@ class FindMapsExecutor(TaskExecutor):
 
         return locations
 
-    # Executes the FindMapsExecutor.
-    # The main method executed when prediction is directed to this class.
-    def run(self, data):
+    # Executes the DriveExecutor.
+    # The main method executed when prediction is directed to this class
+    def run(self, args):
+        data = args[0]
         locations = self._get_locations_from_tags(data)
-        print("FindMapsExecutor; Place: " + locations[0])
+        print("DriveExecutor; Place: " + locations[0])
