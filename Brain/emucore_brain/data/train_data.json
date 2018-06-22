@@ -14,5 +14,8 @@
   "lets ride": "DriveExecutor",
   "lets roll": "DriveExecutor",
   "ride on": "DriveExecutor",
-  "driving time": "DriveExecutor"
+  "driving time": "DriveExecutor",
+  "play me song by artist artist": "MusicPlayExecutor",
+  "play me the song by the artist artist": "MusicPlayExecutor",
+  "play me song by artist": "MusicPlayExecutor"
 }

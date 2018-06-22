@@ -5,18 +5,24 @@
     "class": "TaskExecutor"
   },
   "dependency_directories": [
-
+    "dependencies"
   ],
   "executors": [
     {
       "namespace" : "DriveExecutor",
-      "class": "DriveExecutor",
-      "parameters": [ "data" ]
+      "class": "DriveExecutor"
     },
     {
       "namespace" : "FindMapsExecutor",
-      "class": "FindMapsExecutor",
-      "parameters": [ "data" ]
+      "class": "FindMapsExecutor"
+    },
+    {
+      "namespace" : "MusicPlayExecutor",
+      "class": "MusicPlayExecutor"
+    },
+    {
+      "namespace" : "PodcastPlayExecutor",
+      "class": "PodcastPlayExecutor"
     }
   ]
 }

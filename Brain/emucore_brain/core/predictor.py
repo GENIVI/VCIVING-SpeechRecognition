@@ -1,12 +1,14 @@
-import os,sys
+import os, sys
 
-import consts
+# Error here at importing consts. That imports EmulationCore.base.consts namespace folder.
+from emucore_brain.consts import consts
 import importlib
 import json
 import numpy as np
-import keywords.model
-from core.preprocessor import PreProcessor
-from core.trainer import Trainer
+import emucore_brain.keywords.model as keywords_model
+from emucore_brain.core.preprocessor import PreProcessor
+from emucore_brain.core.trainer import Trainer
+from emucore_brain.data.models.route_model import RouteModel
 
 
 class Predictor:
@@ -26,10 +28,10 @@ class Predictor:
             with open(model_filepath, "r") as model_file:
                 model_json = json.load(model_file)
 
-                self._classes = model_json[keywords.model.save_file_classes]
-                self._word_list = model_json[keywords.model.save_file_words]
-                self._synapse0 = np.asarray(model_json[keywords.model.save_file_synapse0])
-                self._synapse1 = np.asarray(model_json[keywords.model.save_file_synapse1])
+                self._classes = model_json[keywords_model.save_file_classes]
+                self._word_list = model_json[keywords_model.save_file_words]
+                self._synapse0 = np.asarray(model_json[keywords_model.save_file_synapse0])
+                self._synapse1 = np.asarray(model_json[keywords_model.save_file_synapse1])
 
             self._prediction_threshold = prediction_threshold
 
@@ -111,7 +113,8 @@ class Predictor:
                     executor_folder_path = tasks_namespaces_folderpath + "/" + executor_folder
 
                     if os.path.exists(executor_folder_path):
-                        executor_name = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS]
+                        executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
+                        executor_name = executor_route_model.get_name_task_executor()
                         executor_file_name = executor_name + ".py"
                         executor_file_path = executor_folder_path + "/" + executor_file_name
 
@@ -152,7 +155,9 @@ class Predictor:
         structure_definitions_file_data = json.loads(structure_definitions_file_data)
         executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
         for executor in executors:
-            executor_name = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS]
+            executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
+            executor_name = executor_route_model.get_name_task_executor()
+
             unique_class_import_name = executor_name + "." + executor_name
             class_namespace_class = getattr(importlib.import_module(unique_class_import_name), executor_name)
             class_namespace_instance = class_namespace_class()

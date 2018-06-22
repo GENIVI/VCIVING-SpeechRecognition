@@ -1,8 +1,8 @@
-import consts
-import file_reader
-from core.preprocessor import PreProcessor
-from core.trainer import Trainer
-from core.predictor import Predictor
+from emucore_brain.consts import consts
+from emucore_brain import file_reader
+from emucore_brain.core.preprocessor import PreProcessor
+from emucore_brain.core.trainer import Trainer
+from emucore_brain.core.predictor import Predictor
 import numpy as np
 
 _train_data_filepath = consts.data_dir_path + "/train_data.json"

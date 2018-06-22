@@ -1,4 +1,4 @@
-import consts
+from emucore_brain.consts import consts
 import os
 import json
 

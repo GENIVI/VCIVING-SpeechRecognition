@@ -1,4 +1,4 @@
-import consts
+from emucore_brain.consts import consts
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import json

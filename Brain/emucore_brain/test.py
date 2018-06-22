@@ -1,7 +1,7 @@
-import consts
+from emucore_brain.consts import consts
 from statistics import mean
-from core.predictor import Predictor
-import file_reader
+from emucore_brain.core.predictor import Predictor
+from emucore_brain import file_reader
 
 _test_data_filepath = consts.data_dir_path + "/test_data.json"
 _prediction_threshold = 0.2

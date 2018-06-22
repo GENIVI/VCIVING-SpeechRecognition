@@ -24,8 +24,7 @@ TaskExecutors in the following format.
     "executors": [
         {
             "namespace" : %Executor Directory Name%,
-            "class": %Executor Namespace python file inside the namespace folder%,
-            "parameters": [ %Parameter1%, %Parameter 2%, ... ]
+            "class": %Executor Namespace python file inside the namespace folder%
         },
         {
             ..
