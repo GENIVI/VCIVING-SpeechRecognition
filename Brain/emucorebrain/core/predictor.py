@@ -1,4 +1,5 @@
 import os, sys
+import pip
 
 from emucorebrain.consts import consts
 import importlib
@@ -94,51 +95,76 @@ class Predictor:
         except AttributeError:
             return False
 
+    def install_dependencies(self, list_deps : list):
+        for dep in list_deps:
+            pip.main(["install", dep])
+
     def run_validation_on_namespace_dir(self, tasks_namespaces_folderpath):
         structure_definitions_filepath = tasks_namespaces_folderpath + "/" + consts.TASKS_STRUCT_FILE_FILENAME
         if os.path.exists(structure_definitions_filepath):
-            structure_definitions_file_data = open(structure_definitions_filepath).read()
-            structure_definitions_file_data = json.loads(structure_definitions_file_data)
+            dep_filepath = tasks_namespaces_folderpath + "/" + consts.TASKS_DEPS_FILE_FILENAME
+            if os.path.exists(dep_filepath):
+                dep_file = open(dep_filepath, "rb")
+                dep_data = json.load(dep_file)
 
-            if all(basic_prop in structure_definitions_file_data for basic_prop in consts.TASKS_STRUCT_FILE_BASIC_PROPERTY_KEYS):
-                sys.path.append(os.path.abspath(tasks_namespaces_folderpath))
-                abstract = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT]
-                abstract_package = tasks_namespaces_folderpath + "/" + abstract[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT_PACKAGE]
-                sys.path.append(os.path.abspath(abstract_package))
+                list_dep_data = []
+                for dep_index in dep_data:
+                    dep_index_data = dep_data[dep_index]
 
-                executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
-                for executor in executors:
-                    executor_folder = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_NAMESPACE]
-                    executor_folder_path = tasks_namespaces_folderpath + "/" + executor_folder
+                    if consts.TASKS_DEPS_FILE_PROP_DEP_NAME in dep_index_data and consts.TASKS_DEPS_FILE_PROP_DEP_VERSION in dep_index_data:
+                        dep_index_name = dep_index_data[consts.TASKS_DEPS_FILE_PROP_DEP_NAME]
+                        dep_index_version = dep_index_data[consts.TASKS_DEPS_FILE_PROP_DEP_VERSION]
+                        dep_index_req_line = dep_index_name + "==" + dep_index_version
 
-                    if os.path.exists(executor_folder_path):
-                        executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
-                        executor_name = executor_route_model.get_name_task_executor()
-                        executor_file_name = executor_name + ".py"
-                        executor_file_path = executor_folder_path + "/" + executor_file_name
-
-                        if not os.path.exists(executor_file_path):
-                            raise Exception("Class File: " + executor_name + " cannot be found inside the Namespace Folder: " + executor_folder + ".")
-                        else:
-                            # Each namespace(task) file should have its class with the same name as the file
-                            try:
-                                sys.path.append(os.path.abspath(executor_folder_path))
-
-                                unique_class_import_name = executor_name + "." + executor_name
-                                unique_class_object = getattr(importlib.import_module(unique_class_import_name), executor_name)
-                                assert self._is_task_executor(unique_class_object)
-
-                            except AssertionError:
-                                raise Exception("One of the namespaces in the tasks directory does not implement TaskExecutor.")
-
-                            except Exception:
-                                raise Exception("Unexpected error. MAYBE the file(s) in the tasks directory you've provided contains ambiguous class names.")
+                        list_dep_data.append(dep_index_req_line)
                     else:
-                        raise Exception("Namespace folder: " + executor_folder + " not found.")
+                        raise Exception("Dependencies file contains malformed(missing name/version) near the dependency index: " + dep_index)
 
+                self.install_dependencies(list_dep_data)
+
+                structure_definitions_file_data = open(structure_definitions_filepath).read()
+                structure_definitions_file_data = json.loads(structure_definitions_file_data)
+
+                if all(basic_prop in structure_definitions_file_data for basic_prop in consts.TASKS_STRUCT_FILE_BASIC_PROPERTY_KEYS):
+                    sys.path.append(os.path.abspath(tasks_namespaces_folderpath))
+                    abstract = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT]
+                    abstract_package = tasks_namespaces_folderpath + "/" + abstract[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT_PACKAGE]
+                    sys.path.append(os.path.abspath(abstract_package))
+
+                    executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
+                    for executor in executors:
+                        executor_folder = executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_NAMESPACE]
+                        executor_folder_path = tasks_namespaces_folderpath + "/" + executor_folder
+
+                        if os.path.exists(executor_folder_path):
+                            executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
+                            executor_name = executor_route_model.get_name_task_executor()
+                            executor_file_name = executor_name + ".py"
+                            executor_file_path = executor_folder_path + "/" + executor_file_name
+
+                            if not os.path.exists(executor_file_path):
+                                raise Exception("Class File: " + executor_name + " cannot be found inside the Namespace Folder: " + executor_folder + ".")
+                            else:
+                                # Each namespace(task) file should have its class with the same name as the file
+                                try:
+                                    sys.path.append(os.path.abspath(executor_folder_path))
+
+                                    unique_class_import_name = executor_name + "." + executor_name
+                                    unique_class_object = getattr(importlib.import_module(unique_class_import_name), executor_name)
+                                    assert self._is_task_executor(unique_class_object)
+
+                                except AssertionError:
+                                    raise Exception("One of the namespaces in the tasks directory does not implement TaskExecutor.")
+
+                                except Exception:
+                                    raise Exception("Unexpected error. MAYBE the file(s) in the tasks directory you've provided contains ambiguous class names.")
+                        else:
+                            raise Exception("Namespace folder: " + executor_folder + " not found.")
+
+                else:
+                    raise Exception("One or more of the following required entries are not found in the " + consts.TASKS_STRUCT_FILE_FILENAME + ".\n" + consts.TASKS_STRUCT_FILE_PROP_DEP_DIRS + ", " + consts.TASKS_STRUCT_FILE_PROP_EXECUTORS)
             else:
-                raise Exception("One or more of the following required entries are not found in the " + consts.TASKS_STRUCT_FILE_FILENAME + ".\n" + consts.TASKS_STRUCT_FILE_PROP_DEP_DIRS + ", " + consts.TASKS_STRUCT_FILE_PROP_EXECUTORS)
-
+                raise Exception("Namespace folder: " + tasks_namespaces_folderpath + " does not contain the dependencies folder: " + consts.TASKS_DEPS_FILE_FILENAME)
         else:
             raise Exception(consts.TASKS_STRUCT_FILE_FILENAME + " does not exist inside " + tasks_namespaces_folderpath +".\nPlease make sure the tasks executors folder path you've given contains valid TaskExecutors.")
 
