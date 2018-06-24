@@ -1,13 +1,13 @@
-from emucore_brain.consts import consts
-from emucore_brain import file_reader
-from emucore_brain.core.preprocessor import PreProcessor
-from emucore_brain.core.trainer import Trainer
-from emucore_brain.core.predictor import Predictor
+from consts import consts
+import file_reader
+from emucorebrain.core.preprocessor import PreProcessor
+from emucorebrain.core.trainer import Trainer
+from emucorebrain.core.predictor import Predictor
 import numpy as np
 
-_train_data_filepath = consts.data_dir_path + "/train_data.json"
-_train_stem_ignore_filepath = consts.data_dir_path + "/train_stem_ignore.txt"
-_tasks_namespaces_folderpath = "data/task_executors"
+_train_data_filepath = consts.DATA_DIR_PATH + "/train_data.json"
+_train_stem_ignore_filepath = consts.DATA_DIR_PATH + "/train_stem_ignore.txt"
+_tasks_namespaces_folderpath = "D:/GENIVI/Projects/TaskExecutors"
 
 _training_process_verbose = True
 _training_hidden_neurons = 10
@@ -34,5 +34,5 @@ validator_predictor.run_validation_on_namespace_dir(_tasks_namespaces_folderpath
 
 trainer = Trainer(trained_preprocessor=data_preproc, train_verbose=_training_process_verbose, tasks_namespaces_folderpath=_tasks_namespaces_folderpath)
 trainer.train(hidden_neurons=_training_hidden_neurons, alpha=_training_gradient_descent_alpha, epochs=_training_epochs, batch_size=_training_batch_size, iterations=_training_iterations, dropout=_training_dropout, dropout_percent=_training_dropout_percent)
-trainer.save_model(consts.model_savefile_path)
+trainer.save_model(consts.MODEL_SAVEFILE_PATH)
 print("Training complete. Elapsed Time: " + str(trainer.get_training_time()))

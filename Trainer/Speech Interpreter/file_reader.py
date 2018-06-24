@@ -1,4 +1,4 @@
-from emucore_brain.consts import consts
+from consts import consts
 import os
 import json
 
@@ -15,14 +15,14 @@ def read_file_as_dataset(file_path):
     nl_features = []
     text_labels = []
 
-    if file_ext == consts.extension_text:
+    if file_ext == consts.EXTENSION_TEXT:
         examples = file_data.split("\n")
 
         for example in examples:
             sep_example = example.split("\t")
             nl_features.append(sep_example[0])
             text_labels.append(sep_example[1])
-    elif file_ext == consts.extension_json:
+    elif file_ext == consts.EXTENSION_JSON:
         examples = json.loads(file_data)
 
         for feature in examples:

@@ -1,0 +1,7 @@
+
+EXTENSION_TEXT = "txt"
+EXTENSION_JSON = "json"
+
+DATA_DIR_PATH = "data"
+MODEL_DIR_PATH = "model"
+MODEL_SAVEFILE_PATH = MODEL_DIR_PATH + "/model.json"

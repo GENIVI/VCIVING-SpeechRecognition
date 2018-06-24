@@ -1,12 +1,12 @@
-from emucore_brain.consts import consts
+from .consts import consts
 from statistics import mean
-from emucore_brain.core.predictor import Predictor
-from emucore_brain import file_reader
+from emucorebrain.core.predictor import Predictor
+from . import file_reader
 
-_test_data_filepath = consts.data_dir_path + "/test_data.json"
+_test_data_filepath = consts.DATA_DIR_PATH + "/test_data.json"
 _prediction_threshold = 0.2
 
-predictor = Predictor(model_filepath=consts.model_savefile_path, prediction_threshold=_prediction_threshold)
+predictor = Predictor(model_filepath=consts.MODEL_SAVEFILE_PATH, prediction_threshold=_prediction_threshold)
 
 test_sentences, expected_labels = file_reader.read_file_as_dataset(_test_data_filepath)
 
