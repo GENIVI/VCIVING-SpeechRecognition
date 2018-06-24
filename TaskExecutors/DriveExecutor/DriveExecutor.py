@@ -6,8 +6,8 @@ from nltk.tag import StanfordNERTagger
 class DriveExecutor(TaskExecutor):
 
     # Absolute paths of the Classifier and Stanford NER JAR File
-    NER_CLASSIFIER_PATH = "D:/GENIVI/Projects/TaskExecutors/data/task_executors/dependencies/entity_recognition/classifiers/english.muc.7class.distsim.crf.ser.gz"
-    NER_JAR_PATH = "D:/GENIVI/Projects/TaskExecutors/data/task_executors/dependencies/entity_recognition/stanford-ner.jar"
+    NER_CLASSIFIER_PATH = "D:/GENIVI/Projects/TaskExecutors/dependencies/entity_recognition/classifiers/english.muc.7class.distsim.crf.ser.gz"
+    NER_JAR_PATH = "D:/GENIVI/Projects/TaskExecutors/dependencies/entity_recognition/stanford-ner.jar"
 
     TAG_ORGANIZATION = "ORGANIZATION"
     TAG_LOCATION = "LOCATION"

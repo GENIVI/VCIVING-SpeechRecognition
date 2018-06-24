@@ -1,0 +1,38 @@
+{
+  "0": {
+    "name": "nltk",
+    "version": "3.3"
+  },
+  "1": {
+    "name": "simpleaudio",
+    "version": "1.0.2"
+  },
+  "2": {
+    "name": "PyAudio",
+    "version": "0.2.11"
+  },
+  "4": {
+    "name": "pathlib",
+    "version": "1.0.1"
+  },
+  "5": {
+    "name": "pydub",
+    "version": "0.22.0"
+  },
+  "6": {
+    "name": "python-magic",
+    "version": "0.4.15"
+  },
+  "7": {
+    "name": "python-magic-bin",
+    "version": "0.4.14"
+  },
+  "8": {
+    "name": "eyeD3",
+    "version": "0.8.7"
+  },
+  "9": {
+    "name": "six",
+    "version": "1.11.0"
+  }
+}
