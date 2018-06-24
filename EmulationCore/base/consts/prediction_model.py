@@ -1,4 +1,4 @@
 
-model_filepath = "D:/GENIVI/Projects/Brain/model/model.json"
+model_filepath = "D:/GENIVI/Projects/Trainer/Speech Interpreter/model/model.json"
 prediction_threshold = 0.7
-tasks_namespaces_folderpath = "D:/GENIVI/Projects/Brain/data/task_executors"
+tasks_namespaces_folderpath = "D:/GENIVI/Projects/TaskExecutors"
