@@ -1,4 +1,4 @@
-from consts import consts
+import consts
 import os
 import json
 

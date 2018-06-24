@@ -1,4 +1,4 @@
-from consts import consts
+import consts
 import file_reader
 from emucorebrain.core.preprocessor import PreProcessor
 from emucorebrain.core.trainer import Trainer

@@ -1,4 +1,4 @@
-from .consts import consts
+import consts
 from statistics import mean
 from emucorebrain.core.predictor import Predictor
 from . import file_reader
