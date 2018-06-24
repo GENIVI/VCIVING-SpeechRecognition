@@ -1,4 +1,4 @@
-from TaskExecutor import TaskExecutor
+from emucorebrain.data.abstracts.TaskExecutor import TaskExecutor
 
 
 class PodcastPlayExecutor(TaskExecutor):

@@ -1,9 +1,4 @@
 {
-  "abstract": {
-    "package" : "abstracts",
-    "namespace": "TaskExecutor",
-    "class": "TaskExecutor"
-  },
   "dependency_directories": [
     "dependencies"
   ],

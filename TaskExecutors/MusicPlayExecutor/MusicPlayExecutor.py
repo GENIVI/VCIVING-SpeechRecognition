@@ -1,4 +1,4 @@
-from TaskExecutor import TaskExecutor
+from emucorebrain.data.abstracts.TaskExecutor import TaskExecutor
 from MusicPlayExecutor.LocalStorageForMusic import LocalStorageForMusic
 from pydub import AudioSegment
 import simpleaudio as audio_player
