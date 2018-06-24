@@ -1,0 +1,3 @@
+from . import *
+
+name = "emucorebrain"

@@ -1,0 +1,1 @@
+The package containing modules required for training and make predictions out of the trained model in speech interpretation.

@@ -1,0 +1,5 @@
+twine==1.11.0
+wheel==0.31.1
+setuptools==28.8.0
+numpy==1.14.3
+nltk==3.3

@@ -1,14 +1,13 @@
 import os, sys
 
-# Error here at importing consts. That imports EmulationCore.base.consts namespace folder.
-from emucore_brain.consts import consts
+from emucorebrain.consts import consts
 import importlib
 import json
 import numpy as np
-import emucore_brain.keywords.model as keywords_model
-from emucore_brain.core.preprocessor import PreProcessor
-from emucore_brain.core.trainer import Trainer
-from emucore_brain.data.models.route_model import RouteModel
+import emucorebrain.keywords.model as keywords_model
+from emucorebrain.core.preprocessor import PreProcessor
+from emucorebrain.core.trainer import Trainer
+from emucorebrain.data.models.route_model import RouteModel
 
 
 class Predictor:

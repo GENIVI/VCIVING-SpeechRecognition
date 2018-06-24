@@ -2,7 +2,7 @@ import datetime
 import json
 import time
 import numpy as np
-from emucore_brain import keywords
+from emucorebrain import keywords
 
 
 class Trainer:

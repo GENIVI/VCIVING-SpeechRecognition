@@ -1,5 +1,5 @@
 import importlib
-from emucore_brain.data.task_executors.abstracts.TaskExecutor import TaskExecutor
+from emucorebrain.data.abstracts.TaskExecutor import TaskExecutor
 
 
 class RouteModel:
