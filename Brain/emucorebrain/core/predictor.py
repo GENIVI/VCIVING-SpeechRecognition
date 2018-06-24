@@ -97,7 +97,8 @@ class Predictor:
 
     def install_dependencies(self, list_deps : list):
         for dep in list_deps:
-            pip.main(["install", dep])
+            args = ["-q"]
+            pip.main(["install"] + args + [dep])
 
     def run_validation_on_namespace_dir(self, tasks_namespaces_folderpath):
         structure_definitions_filepath = tasks_namespaces_folderpath + "/" + consts.TASKS_STRUCT_FILE_FILENAME

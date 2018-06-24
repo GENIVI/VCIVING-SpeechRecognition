@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='emucorebrain',
-      version='0.1.1',
+      version='0.3',
       description='Brain of EmulationCore',
       url='https://github.com/GENIVI/GENIVI-GSoC-18/tree/master/Brain/core',
       author='Chandeepa Dissanayake',
