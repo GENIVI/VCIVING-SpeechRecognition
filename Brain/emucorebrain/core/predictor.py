@@ -128,9 +128,6 @@ class Predictor:
 
                 if all(basic_prop in structure_definitions_file_data for basic_prop in consts.TASKS_STRUCT_FILE_BASIC_PROPERTY_KEYS):
                     sys.path.append(os.path.abspath(tasks_namespaces_folderpath))
-                    abstract = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT]
-                    abstract_package = tasks_namespaces_folderpath + "/" + abstract[consts.TASKS_STRUCT_FILE_PROP_ABSTRACT_PACKAGE]
-                    sys.path.append(os.path.abspath(abstract_package))
 
                     executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
                     for executor in executors:
