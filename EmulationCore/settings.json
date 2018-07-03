@@ -1,0 +1,18 @@
+{
+  "tasks_model_filepath": {
+    "display_key": "File path to the pre trained Task Prediction model",
+    "value": "D:/GENIVI/Projects/Trainer/Speech Interpreter/model/model.json"
+  },
+  "tasks_prediction_threshold": {
+    "display_key": "Prediction Acceptance Threshold",
+    "value": "0.7"
+  },
+  "tasks_namespaces_folderpath": {
+    "display_key": "Path to the Folder containing Task Executors",
+    "value": "D:/GENIVI/Projects/TaskExecutors"
+  },
+  "local_music_folderpath": {
+    "display_key": "Path to the Local Song Database Folder",
+    "value": "D:/Downloads/Music"
+  }
+}

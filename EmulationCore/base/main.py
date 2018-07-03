@@ -1,23 +1,22 @@
 # This is the main thread of the program / base of the entire system
 import base.input_handler as input_handler
 import base.output_handler as output_handler
-import base.consts.prediction_model
+from emucorebrain.data.containers.settings import SettingsContainer
+import base.consts.consts as emucore_consts
 from threading import Thread
 
 # Temporary content which is to be changed in the coming days
 ivi_shutdown = False
 
+# Initializes the Settings Container.
+ivi_settings = SettingsContainer(emucore_consts.SETTINGS_FILEPATH)
+
 # Initializes all the outputs(mechanisms)
 output_handler.ivi_init_outputs()
 
 # Initializes all the inputs(mechanisms)
-input_handler.ivi_init_inputs(output_handler, base.consts.prediction_model.model_filepath, base.consts.prediction_model.prediction_threshold, base.consts.prediction_model.tasks_namespaces_folderpath)
+input_handler.ivi_init_inputs(output_handler, ivi_settings)
 output_handler.output_via_mechanism(output_handler.default_output_mechanism, "Initialization successful. Waiting for Commands...", wait_until_completed=False, log=True)
-# def run_initialized_notifer():
-#     output_handler.output_via_mechanism(output_handler.default_output_mechanism, "Initialization successful. Waiting for Commands...", wait_until_completed=True, log=True)
-# thread_initialized_notifer = Thread(target=run_initialized_notifer)
-# thread_initialized_notifer.daemon = True
-# thread_initialized_notifer.start()
 
 
 def grab_text_input():

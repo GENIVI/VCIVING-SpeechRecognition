@@ -1,7 +1,7 @@
 # This handles all the outputs and provides outputs as necessary
 from base import input_handler
-from outs.outs_mechanism import OutputMechanism
-from outs.mechanisms.speaker import OutputSpeaker
+from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
+from outs.speaker import OutputSpeaker
 
 # Following variable sets the default output mechanism used by the system.
 # Defaults to OutputSpeaker instance when ivi_init_outputs is called.

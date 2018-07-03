@@ -1,8 +1,9 @@
 # This handles all the inputs and processes them as necessary.
 import speech_recognition as SR
 from base import output_handler
-from ins.mechanisms.microphone import InputMicrophone
+from ins.microphone import InputMicrophone
 from base.input_processor import InputProcessor
+from emucorebrain.data.containers.settings import SettingsContainer
 
 # This is the default output mechanism used to output anything in the input processing section.
 
@@ -24,12 +25,12 @@ input_processor : InputProcessor = None
 # tasks_namespaces_folderpath:  The path to the folder containing all the classes implementing the tasks given by the
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
-def ivi_init_inputs(output_handler_namespace : output_handler, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath):
+def ivi_init_inputs(output_handler_namespace : output_handler, ivi_settings : SettingsContainer):
     global _output_handler_namespace, input_processor, _microphone_input
     _output_handler_namespace = output_handler_namespace
 
     # Initializes the InputProcessor
-    input_processor = InputProcessor(output_handler_namespace, prediction_model_filepath, prediction_threshold, tasks_namespaces_folderpath)
+    input_processor = InputProcessor(output_handler_namespace, ivi_settings)
 
     # Initialize the Microphone
     def _ivi_process_microphone_data(heard_text, exception):

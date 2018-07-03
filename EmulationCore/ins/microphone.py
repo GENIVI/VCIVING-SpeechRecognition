@@ -5,7 +5,7 @@
 # Can be cloned from https://github.com/Uberi/speech_recognition
 import speech_recognition as SR
 from threading import Thread
-from ..ins_mechanism import InputMechanism
+from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism
 import time
 
 

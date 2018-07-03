@@ -4,7 +4,7 @@
 # We're using pyttsx3 library, is open source. Can be cloned at https://github.com/nateshmbhat/pyttsx3
 # pyttsx3 uses eSpeak Engine and pypiwin32 is another dependency.
 import pyttsx3
-from ..outs_mechanism import OutputMechanism
+from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
 
 
 class OutputSpeaker(OutputMechanism):
