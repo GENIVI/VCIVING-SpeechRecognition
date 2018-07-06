@@ -4,13 +4,17 @@ from base import output_handler
 from ins.microphone import InputMicrophone
 from base.input_processor import InputProcessor
 from emucorebrain.data.containers.settings import SettingsContainer
+from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism
 
 # This is the default output mechanism used to output anything in the input processing section.
 
-# Following variables defines all the input mechanisms here.
-_microphone_input : InputMicrophone = None
+# Following variable sets the default input mechanism used by the system.
+# Defaults to InputMicrophone instance when ivi_init_inputs is called.
+default_input_mechanism : InputMechanism = None
 
-_output_handler_namespace : output_handler = None
+# Following variables defines all the input mechanisms here.
+microphone_input : InputMicrophone = None
+
 input_processor : InputProcessor = None
 
 
@@ -25,12 +29,11 @@ input_processor : InputProcessor = None
 # tasks_namespaces_folderpath:  The path to the folder containing all the classes implementing the tasks given by the
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
-def ivi_init_inputs(output_handler_namespace : output_handler, ivi_settings : SettingsContainer):
-    global _output_handler_namespace, input_processor, _microphone_input
-    _output_handler_namespace = output_handler_namespace
+def ivi_init_inputs(ivi_settings : SettingsContainer):
+    global input_processor, microphone_input
 
     # Initializes the InputProcessor
-    input_processor = InputProcessor(output_handler_namespace, ivi_settings)
+    input_processor = InputProcessor(ivi_settings)
 
     # Initialize the Microphone
     def _ivi_process_microphone_data(heard_text, exception):
@@ -41,18 +44,31 @@ def ivi_init_inputs(output_handler_namespace : output_handler, ivi_settings : Se
             if exception == SR.UnknownValueError:
                 pass
             elif exception == SR.RequestError:
-                output_handler_namespace.output_via_mechanism(mechanism=output_handler.default_output_mechanism, data="Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True, log=True)
-    _microphone_input = InputMicrophone(_ivi_process_microphone_data)
-    _microphone_input.start_listening()
+                output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism, data="Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True, log=True)
+    microphone_input = InputMicrophone(_ivi_process_microphone_data)
+    microphone_input.start_listening()
 
+    ivi_set_default_input_mechanism(microphone_input)
+
+# Sets the default input mechanism
+# mechanism: An implementation instance of the InputMechanism class.
+def ivi_set_default_input_mechanism(mechanism : InputMechanism):
+    global default_input_mechanism
+    default_input_mechanism = mechanism
 
 # Starts all the input mechanisms and asks them to grab the inputs.
 def ivi_start_inputs():
-    _microphone_input.start_listening()
+    microphone_input.start_listening()
     # Start all other input mechanisms
 
 
 # Stops all the input mechanisms from grabbing the inputs.
 def ivi_stop_inputs(kill_permanently=False):
-    _microphone_input.stop_listening(kill_permanently=kill_permanently)
+    microphone_input.stop_listening(kill_permanently=kill_permanently)
     # Stop all other input mechanisms
+
+def ivi_get_ins_mechanisms():
+    return {
+        InputMicrophone.CONTAINER_KEY: microphone_input,
+        # Add all other input mechanisms here.
+    }

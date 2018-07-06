@@ -11,6 +11,8 @@ import time
 
 class InputMicrophone(InputMechanism):
 
+    CONTAINER_KEY = "ins_mechanism_microphone"
+
     # Following time is the time which the thread should wait after one cycle of listening to microphone.
     # It is used to prevent microphone and the thread being overloaded with instructions and malfunctioning.
     # 1 second = 1000 milliseconds

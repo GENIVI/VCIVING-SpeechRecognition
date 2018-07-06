@@ -8,6 +8,9 @@ from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
 
 
 class OutputSpeaker(OutputMechanism):
+
+    CONTAINER_KEY = "outs_mechanism_speaker"
+
     speaker_engine_prop_rate = "rate"
 
     # Constructor
@@ -41,8 +44,9 @@ class OutputSpeaker(OutputMechanism):
         # Ask the engine to speak
         for data in self._data_queue:
             self._speaker_engine.say(data)
+            # Wait until the engine speaks
+            self._speaker_engine.runAndWait()
 
         self._data_queue = []
 
-        # Wait until the engine speaks
-        self._speaker_engine.runAndWait()
+

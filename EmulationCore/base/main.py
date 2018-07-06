@@ -4,6 +4,7 @@ import base.output_handler as output_handler
 from emucorebrain.data.containers.settings import SettingsContainer
 import base.consts.consts as emucore_consts
 from threading import Thread
+import time
 
 # Temporary content which is to be changed in the coming days
 ivi_shutdown = False
@@ -15,7 +16,7 @@ ivi_settings = SettingsContainer(emucore_consts.SETTINGS_FILEPATH)
 output_handler.ivi_init_outputs()
 
 # Initializes all the inputs(mechanisms)
-input_handler.ivi_init_inputs(output_handler, ivi_settings)
+input_handler.ivi_init_inputs(ivi_settings)
 output_handler.output_via_mechanism(output_handler.default_output_mechanism, "Initialization successful. Waiting for Commands...", wait_until_completed=False, log=True)
 
 
@@ -51,3 +52,4 @@ typed_input_thread.start()
 
 while not ivi_shutdown:
     output_handler.ivi_run_outputs()
+    time.sleep(0.05)
