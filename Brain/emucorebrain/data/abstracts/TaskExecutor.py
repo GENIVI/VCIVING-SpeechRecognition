@@ -11,7 +11,7 @@ class TaskExecutor(abc.ABC):
     # The following method is directly called by the any other section of the program.
     # This is the function where one should implement the gist of the task to be performed.
     # No other methods defined by the implemented classes are called.
-    # args should be a list of arguments that are taken inside.
+    # args should be a dictionary of arguments that are taken inside set with the defined args inside the system.
     @abc.abstractmethod
     def run(self, args):
         pass
