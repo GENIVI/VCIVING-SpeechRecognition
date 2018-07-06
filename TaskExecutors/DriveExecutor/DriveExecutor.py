@@ -1,4 +1,5 @@
 from emucorebrain.data.abstracts.TaskExecutor import TaskExecutor
+import emucorebrain.keywords.task_executor as keywords_task_executor
 import nltk
 from nltk.tag import StanfordNERTagger
 
@@ -35,6 +36,6 @@ class DriveExecutor(TaskExecutor):
     # Executes the DriveExecutor.
     # The main method executed when prediction is directed to this class
     def run(self, args):
-        data = args[0]
+        data = args[keywords_task_executor.ARG_SPEECH_TEXT_DATA]
         locations = self._get_locations_from_tags(data)
         print("DriveExecutor; Place: " + locations[0])

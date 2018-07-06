@@ -1,6 +1,6 @@
 import os
 import operator
-import eyed3
+from mutagen.easyid3 import EasyID3
 from MusicPlayExecutor.Algorithm import Algorithm
 
 
@@ -14,6 +14,9 @@ from MusicPlayExecutor.Algorithm import Algorithm
 # 5. If lyrics contains the given song name(title), present that as a match to the next level of processing.
 # This is to be done after completing most of the functionality of the EmulationCore.
 class LocalStorageForMusic:
+
+    METADATA_KEY_TITLE = "title"
+    METADATA_KEY_ARTIST = "artist"
 
     KEY_SONG_TITLE = "song_title"
     KEY_SONG_ARTIST = "song_artist"
@@ -55,17 +58,18 @@ class LocalStorageForMusic:
 
         return info_dict
 
-    def _score_songs_and_titles_in_sentence(self, file_set_to_search, sentence):
+    def _score_songs_and_titles_in_sentence(self, sentence):
+        file_set_to_search = os.listdir(self._music_folderpath)
         splitted_sentence = sentence.split(" ")
 
         scores_for_songs = {}
         scores_for_assumed_titles = {}
         for file_name in file_set_to_search:
             try:
-                file = open(self._music_folderpath + "/" + file_name, "rb")
-                audio_file = eyed3.load(file.name)
-                audio_file_title = audio_file.tag.title
-                audio_file_artist = audio_file.tag.artist
+                file_name = self._music_folderpath + "/" + file_name
+                audio_file = EasyID3(file_name)
+                audio_file_title = audio_file[LocalStorageForMusic.METADATA_KEY_TITLE][0]
+                audio_file_artist = audio_file[LocalStorageForMusic.METADATA_KEY_ARTIST][0]
 
                 # At this point, it is safe to assume the file is an audio format.
                 # Therefore we can assign it a place in scores_for_song_titles dictionary.
@@ -96,8 +100,8 @@ class LocalStorageForMusic:
 
         return scores_for_songs, self._get_normalized_info_dict(scores_for_assumed_titles)
 
-    def get_title_from_sentence(self, file_set_to_search, sentence):
-        score_songs_for_titles, scores_titles_in_sentence = self._score_songs_and_titles_in_sentence(file_set_to_search, sentence)
+    def get_title_from_sentence(self, sentence):
+        score_songs_for_titles, scores_titles_in_sentence = self._score_songs_and_titles_in_sentence(sentence)
         deduced_title = max(scores_titles_in_sentence.items(), key=operator.itemgetter(1))[0]
 
         real_title = ""
@@ -116,17 +120,18 @@ class LocalStorageForMusic:
 
         return real_title
 
-    def _score_songs_and_artists_in_sentence(self, file_set_to_search, sentence):
+    def _score_songs_and_artists_in_sentence(self, sentence):
+        file_set_to_search = os.listdir(self._music_folderpath)
         splitted_sentence = sentence.split(" ")
 
         scores_for_songs = {}
         scores_for_assumed_artists = {}
         for file_name in file_set_to_search:
             try:
-                file = open(self._music_folderpath + "/" + file_name, "rb")
-                audio_file = eyed3.load(file.name)
-                audio_file_title = audio_file.tag.title
-                audio_file_artist = audio_file.tag.artist
+                file_name = self._music_folderpath + "/" + file_name
+                audio_file = EasyID3(file_name)
+                audio_file_title = audio_file[LocalStorageForMusic.METADATA_KEY_TITLE][0]
+                audio_file_artist = audio_file[LocalStorageForMusic.METADATA_KEY_ARTIST][0]
 
                 # At this point, it is safe to assume the file is an audio format.
                 # Therefore we can assign it a place in scores_for_song_titles dictionary.
@@ -154,8 +159,8 @@ class LocalStorageForMusic:
 
         return scores_for_songs, self._get_normalized_info_dict(scores_for_assumed_artists)
 
-    def get_artist_from_sentence(self, file_set_to_search, sentence):
-        score_songs_for_artists, score_artists_in_sentence = self._score_songs_and_artists_in_sentence(file_set_to_search, sentence)
+    def get_artist_from_sentence(self, sentence):
+        score_songs_for_artists, score_artists_in_sentence = self._score_songs_and_artists_in_sentence(sentence)
         deduced_artist = max(score_artists_in_sentence.items(), key=operator.itemgetter(1))[0]
 
         real_artist = ""
@@ -174,34 +179,20 @@ class LocalStorageForMusic:
 
         return real_artist
 
-    def _count_audio_files(self):
-        count = 0
-        for file_name in os.listdir(self._music_folderpath):
-            try:
-                file = open(self._music_folderpath + "/" + file_name, "rb")
-                audio_file = eyed3.load(file.name)
+    def search(self, sentence):
+        song_title = self.get_title_from_sentence(sentence)
+        song_artist = self.get_artist_from_sentence(sentence)
 
-                if not audio_file is None:
-                    count += 1
-
-            except:
-                continue
-
-        return count
-
-    def search(self, file_set_to_search, sentence):
-        song_title = self.get_title_from_sentence(file_set_to_search, sentence)
-        song_artist = self.get_artist_from_sentence(file_set_to_search, sentence)
-
+        file_set_to_search = os.listdir(self._music_folderpath)
         for file_name in file_set_to_search:
             try:
-                file = open(self._music_folderpath + "/" + file_name, "rb")
-                audio_file = eyed3.load(file.name)
-                audio_file_title = audio_file.tag.title
-                audio_file_artist = audio_file.tag.artist
+                file_name = self._music_folderpath + "/" + file_name
+                audio_file = EasyID3(file_name)
+                audio_file_title = audio_file[LocalStorageForMusic.METADATA_KEY_TITLE][0]
+                audio_file_artist = audio_file[LocalStorageForMusic.METADATA_KEY_ARTIST][0]
 
                 if song_title == audio_file_title and song_artist == audio_file_artist:
-                    return file
+                    return open(file_name, "rb")
 
             except:
                 continue

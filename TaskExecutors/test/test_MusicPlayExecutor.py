@@ -1,9 +1,7 @@
 # Note: This is just a test file used to test/debug the TaskExecutors.
 # This is not incorporated into EmulationCore by any means.
 
-# from Package.Namespace import Class
 from MusicPlayExecutor.MusicPlayExecutor import MusicPlayExecutor
-from MusicPlayExecutor.GoogleForMusic import GoogleForMusic
 
 
 def play_song(spoken_sentence):
@@ -11,12 +9,17 @@ def play_song(spoken_sentence):
     music_exec.run([spoken_sentence])
 
 
-def web_search(song_name : str):
-    googler = GoogleForMusic()
-    googler.search(song_name)
-
-
-# web_search("shape of you")
-play_song("play Sanda Mithuri song by artist Kasun Kalhara")
+# Different ways of asking to play music
+play_song("play Kasun Kalhara's Sanda Mithuri song")
+# play
+# play Kasun
+# play Kasun Kalhara's
+# play Kasun Kalhara's Sanda
 # play_song("play Sepalika Mala by Jayasiri Amarasekara")
+
+# Dropping certain letters in the song name
+# Real song is Pransa Yuwathiya Amal Perera
 # play_song("play Pransa Yuwath by Amal Perera")
+
+# Following does not work.
+# play_song("play Baby by Justin Bieber")
