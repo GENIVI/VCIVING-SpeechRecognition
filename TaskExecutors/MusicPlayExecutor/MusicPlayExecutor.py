@@ -4,6 +4,7 @@ from emucorebrain.data.carriers.string import StringCarrier
 from emucorebrain.data.containers.settings import SettingsContainer
 from emucorebrain.data.carriers.outs_mechanism import OutputMechanismCarrier
 import emucorebrain.keywords.task_executor as keywords_task_executor
+from simpleaudio import PlayObject
 from MusicPlayExecutor.LocalStorageForMusic import LocalStorageForMusic
 from pydub import AudioSegment
 import simpleaudio as audio_player
@@ -22,7 +23,7 @@ class MusicPlayExecutor(TaskExecutor):
     PLAYER_BYTES_PER_SAMPLE = 2
 
     def __init__(self):
-        self._current_audio = None
+        self._current_audio : PlayObject = None
 
     def _play_audio_from_stream(self, audio_data, num_audio_channels, num_bytes_sample, sample_rate):
         self._current_audio = audio_player.play_buffer(audio_data, num_audio_channels, num_bytes_sample, sample_rate)
@@ -53,12 +54,11 @@ class MusicPlayExecutor(TaskExecutor):
                 ivi_outs_mechanism_default.write_data("We found the song you've requested. Let's listen.", wait_until_completed=True)
                 self._play_audio_from_file(song_file)
             else:
+                ivi_outs_mechanism_default.write_data("We didn't find the song you've requested.", wait_until_completed=True)
                 # Get permission from the user by asking to search internet for song because it is not found locally.
                 # Then do it with the help of GoogleForMusic if permitted.
                 pass
         else:
-            # TODO: Find a method to pause the music, say that a song is currently being played(maybe ask to stop it
-            # and play the desired one), resume the music back again.
-            # self._current_audio.stop()
-            # ivi_outs_mechanism_default.write_data(MusicPlayExecutor.OUTPUT_DATA_SONG_PLAYING, wait_until_completed=True)
-            pass
+            self._current_audio.pause()
+            ivi_outs_mechanism_default.write_data(MusicPlayExecutor.OUTPUT_DATA_SONG_PLAYING, wait_until_completed=True)
+            self._current_audio.resume()

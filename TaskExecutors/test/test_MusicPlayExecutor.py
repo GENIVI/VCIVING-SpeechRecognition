@@ -2,11 +2,15 @@
 # This is not incorporated into EmulationCore by any means.
 
 from MusicPlayExecutor.MusicPlayExecutor import MusicPlayExecutor
+import emucorebrain.keywords.task_executor as keywords_task_executor
 
 
 def play_song(spoken_sentence):
     music_exec = MusicPlayExecutor()
-    music_exec.run([spoken_sentence])
+    music_exec.run({
+        keywords_task_executor.ARG_SPEECH_TEXT_DATA: spoken_sentence,
+        # TODO: Complete this
+    })
 
 
 # Different ways of asking to play music

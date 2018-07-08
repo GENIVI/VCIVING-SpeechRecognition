@@ -4,8 +4,8 @@
     "version": "3.3"
   },
   "1": {
-    "name": "simpleaudio",
-    "version": "1.0.2"
+    "name": "complexaudio",
+    "version": "1.0.4"
   },
   "2": {
     "name": "PyAudio",
