@@ -1,7 +1,7 @@
 import math
 
 
-class Algorithm:
+class SearchAlgorithm:
 
     SIMPLE_EXPONENTIAL_SEARCH = 0
 

@@ -1,7 +1,7 @@
 import os
 import operator
 from mutagen.easyid3 import EasyID3
-from MusicPlayExecutor.Algorithm import Algorithm
+from Algorithms.SearchAlgorithm import SearchAlgorithm
 
 
 # Currently we use the title tag to filter out the song from the storage.
@@ -32,7 +32,7 @@ class LocalStorageForMusic:
         no_space_real_title = real_title.lower().replace(" ", "")
         no_space_heard_title = heard_title.lower().replace(" ", "")
 
-        return Algorithm.score_simple_exponential_search_alg(no_space_real_title, no_space_heard_title)
+        return SearchAlgorithm.score_simple_exponential_search_alg(no_space_real_title, no_space_heard_title)
 
     # This method is used to confirm whether the heard artist is same as the real artist in the song.
     # Whatever the algorithm that compares the two artist names should be implemented here.
@@ -41,7 +41,7 @@ class LocalStorageForMusic:
         no_space_real_artist = real_artist.lower().replace(" ", "")
         no_space_heard_artist = heard_artist.lower().replace(" ", "")
 
-        return Algorithm.score_simple_exponential_search_alg(no_space_real_artist, no_space_heard_artist)
+        return SearchAlgorithm.score_simple_exponential_search_alg(no_space_real_artist, no_space_heard_artist)
 
     # Returns normalized dictionary which contains values normalized between 0.0 and 1.0 with respect to the given
     # dictionary.
@@ -52,7 +52,7 @@ class LocalStorageForMusic:
 
         for key in info_dict:
             unnorm_score = info_dict[key]
-            norm_score = Algorithm.get_normalized_value(unnorm_score, min_score_possible, max_score_possible, 0.0, 1.0)
+            norm_score = SearchAlgorithm.get_normalized_value(unnorm_score, min_score_possible, max_score_possible, 0.0, 1.0)
 
             info_dict[key] = norm_score
 

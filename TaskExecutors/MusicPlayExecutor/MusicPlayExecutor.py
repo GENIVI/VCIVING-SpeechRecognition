@@ -13,7 +13,6 @@ import simpleaudio as audio_player
 class MusicPlayExecutor(TaskExecutor):
 
     SETTING_LOCAL_SONGS_FOLDERPATH_KEY = "local_music_folderpath"
-    SETTING_LOCAL_SONGS_FOLDERPATH_VALUE_DISPLAY = "Local Song Database Folder"
 
     OUTPUT_DATA_SONG_PLAYING = "A song is currently being played."
 
