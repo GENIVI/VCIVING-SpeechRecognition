@@ -82,9 +82,6 @@ class LocalStorageForMusic:
                         score_for_song[assumed_title] = assumed_title_score
                         scores_for_assumed_titles[assumed_title] = (scores_for_assumed_titles[assumed_title] if assumed_title in scores_for_assumed_titles else 0.0) + assumed_title_score
 
-                # Normalize the score_for_song dictionary
-                score_for_song = self._get_normalized_info_dict(score_for_song)
-
                 score_data_for_song = {
                     self.KEY_SONG_TITLE: audio_file_title,
                     self.KEY_SONG_ARTIST: audio_file_artist,
@@ -98,7 +95,7 @@ class LocalStorageForMusic:
         # We have to adjust the scores according to the assumed title being a real title by passing it through a certain
         # model. This model should reduce the score for including words which would not preferably exist in song titles.
 
-        return scores_for_songs, self._get_normalized_info_dict(scores_for_assumed_titles)
+        return scores_for_songs, scores_for_assumed_titles
 
     def get_title_from_sentence(self, sentence):
         score_songs_for_titles, scores_titles_in_sentence = self._score_songs_and_titles_in_sentence(sentence)
@@ -144,9 +141,6 @@ class LocalStorageForMusic:
                         score_for_song[assumed_artist] = assumed_artist_score
                         scores_for_assumed_artists[assumed_artist] = (scores_for_assumed_artists[assumed_artist] if assumed_artist in scores_for_assumed_artists else 0.0) + assumed_artist_score
 
-                # Normalize the score_for_song dictionary
-                score_for_song = self._get_normalized_info_dict(score_for_song)
-
                 score_data_for_song = {
                     self.KEY_SONG_TITLE: audio_file_title,
                     self.KEY_SONG_ARTIST: audio_file_artist,
@@ -157,7 +151,7 @@ class LocalStorageForMusic:
             except:
                 continue
 
-        return scores_for_songs, self._get_normalized_info_dict(scores_for_assumed_artists)
+        return scores_for_songs, scores_for_assumed_artists
 
     def get_artist_from_sentence(self, sentence):
         score_songs_for_artists, score_artists_in_sentence = self._score_songs_and_artists_in_sentence(sentence)
