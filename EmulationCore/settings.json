@@ -1,7 +1,7 @@
 {
   "tasks_model_filepath": {
     "display_key": "File path to the pre trained Task Prediction model",
-    "value": "D:/GENIVI/Projects/Trainer/Speech Interpreter/model/model.json"
+    "value": "D:/GENIVI/Projects/Trainer/speech_interpreter/model/model.json"
   },
   "tasks_prediction_threshold": {
     "display_key": "Prediction Acceptance Threshold",
@@ -14,5 +14,13 @@
   "local_music_folderpath": {
     "display_key": "Path to the Local Song Database Folder",
     "value": "D:/Downloads/Music"
+  },
+  "db_location_names_filepath": {
+    "display_key": "Path to the database file which contains location names",
+    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
+  },
+  "db_location_mapper_filepath": {
+    "display_key": "Path to the database file which contains geo-locations(latitudes, longitudes)",
+    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
   }
 }
