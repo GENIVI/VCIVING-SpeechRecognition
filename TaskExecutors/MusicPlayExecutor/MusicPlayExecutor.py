@@ -36,6 +36,12 @@ class MusicPlayExecutor(TaskExecutor):
 
             self._play_audio_from_stream(audio_data, num_channels, self.PLAYER_BYTES_PER_SAMPLE, self.PLAYER_SAMPLING_RATE)
 
+    # Executes the negative run method of MusicPlayExecutor.
+    def run_negative(self, args):
+        pass
+
+    # Executes the MusicPlayExecutor.
+    # The main method executed when prediction is directed to this class.
     def run(self, args):
         data: StringCarrier = args[keywords_task_executor.ARG_SPEECH_TEXT_DATA]
         ivi_settings: SettingsContainer = args[keywords_task_executor.ARG_SETTINGS_CONTAINER]

@@ -33,6 +33,10 @@ class DriveExecutor(TaskExecutor):
     #
     #     return locations
 
+    # Executes the negative run method of DriveExecutor.
+    def run_negative(self, args):
+        pass
+
     # Executes the DriveExecutor.
     # The main method executed when prediction is directed to this class
     def run(self, args):
