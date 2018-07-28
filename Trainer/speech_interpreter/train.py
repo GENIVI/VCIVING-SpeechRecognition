@@ -1,5 +1,5 @@
 import consts
-import file_reader
+from speech_interpreter import file_reader
 from emucorebrain.core.preprocessor import PreProcessor
 from emucorebrain.core.trainer import Trainer
 from emucorebrain.core.predictor import Predictor

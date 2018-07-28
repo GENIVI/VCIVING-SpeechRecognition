@@ -6,5 +6,6 @@
   "can we find a workstation": "FindMapsExecutor",
   "move my car to home": "DriveExecutor",
   "find my home": "FindMapsExecutor",
-  "play me Badtameez Dil by Shareer Kapoor": "MusicPlayExecutor"
+  "play me Badtameez Dil by Shareer Kapoor": "MusicPlayExecutor",
+  "please never drive me to hotels": "DriveExecutor.run_negative"
 }
