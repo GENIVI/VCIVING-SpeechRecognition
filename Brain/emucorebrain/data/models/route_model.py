@@ -8,15 +8,12 @@ class RouteModel:
     INDEX_METHOD = 1
 
     METHOD_SEPARATOR = '.'
-    METHOD_ARG_BEGIN = '('
-    METHOD_ARG_SEPARATOR = ','
-    METHOD_ARG_END = ')'
 
     def __init__(self, route_str):
         self._route_str : str = route_str
 
     def get_name_task_executor(self):
-        route_sep = self._route_str.split(self.METHOD_ARG_SEPARATOR)
+        route_sep = self._route_str.split(self.METHOD_SEPARATOR)
         return route_sep[self.INDEX_EXECUTOR]
 
     # Please note that all the paths to the TaskExecutors namespaces should be added prior to calling this method.

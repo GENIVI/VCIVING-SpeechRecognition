@@ -88,14 +88,16 @@ class Predictor:
     def get_unique_classes(self):
         return self._classes
 
-    def _is_task_executor(self, class_object):
+    @staticmethod
+    def _is_task_executor(class_object):
         try:
             return class_object.VALID_TASK_EXECUTOR
 
         except AttributeError:
             return False
 
-    def install_dependencies(self, list_deps : list):
+    @staticmethod
+    def install_dependencies(list_deps : list):
         for dep in list_deps:
             args = ["-q"]
             pip.main(["install"] + args + [dep])
