@@ -5,7 +5,7 @@
 # Can be cloned from https://github.com/Uberi/speech_recognition
 import speech_recognition as SR
 from threading import Thread
-from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism
+from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, GrabberController, Grabber
 import time
 
 
@@ -19,14 +19,19 @@ class InputMicrophone(InputMechanism):
     TIME_SLEEP_PER_CYCLE = 0.01
 
     # Constructor
-    # on_listen :   The callback function to be called when the microphone hears some input from the user. This function
+    #
+    # grabber_controller : The GrabberController instance containing all the Grabbers which are wrapped around various
+    #               callback functions.
+    #               The callback function to be called when the microphone hears some input from the user. This function
     #               should accept one string parameter and one Exception type parameter through which the heard text is
     #               passed into the callback function and through which the following listed errors are retrieved.
     #               If everything went fine and useful speech was recognized as text, the first parameter(string) will
     #               be set to the text data of the audio heard and the second parameter(Exception) will be None.
     #               If any exception occurs, first parameter(string) will be none and the second parameter(Exception)
     #               will be set to the exception occurred.
-    def __init__(self, on_listen):
+    def __init__(self, grabber_controller : GrabberController):
+        self._grabber_controller = grabber_controller
+
         # Create new Recognizer object which contains different calls to use different APIs
         self._speech_recognizer = SR.Recognizer()
         self._speech_microphone = SR.Microphone()
@@ -39,13 +44,13 @@ class InputMicrophone(InputMechanism):
                 spoken_raw_text = self._speech_recognizer.recognize_google(heard_speech)
                 if self._speech_microphone_listening_state:
                     self._speech_last_heard_text = spoken_raw_text
-                    on_listen(spoken_raw_text, None)
+                    grabber_controller.notify_grabbers(spoken_raw_text, None)
 
             except SR.UnknownValueError:
-                on_listen(None, SR.UnknownValueError)
+                grabber_controller.notify_grabbers(None, SR.UnknownValueError)
 
             except SR.RequestError:
-                on_listen(None, SR.RequestError)
+                grabber_controller.notify_grabbers(None, SR.RequestError)
 
         def _recognize_speech_to_audio():
             with self._speech_microphone:
@@ -82,3 +87,7 @@ class InputMicrophone(InputMechanism):
             return self._speech_last_heard_text
         else:
             raise Exception("Nothing has been heard by the microphone.")
+
+    # Returns the associated GrabberController instance.
+    def get_grabber_controller(self):
+        return self._grabber_controller
