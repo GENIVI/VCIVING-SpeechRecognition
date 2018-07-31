@@ -25,7 +25,14 @@ class FindMapsExecutor(TaskExecutor):
 
     # Executes the negative run method of FindMapsExecutor.
     def run_negative(self, args):
-        pass
+        data: StringCarrier = args[keywords_task_executor.ARG_SPEECH_TEXT_DATA]
+        ivi_settings: SettingsContainer = args[keywords_task_executor.ARG_SETTINGS_CONTAINER]
+        ivi_outs_mechanisms_carriers = args[keywords_task_executor.ARG_OUTS_MECHANISMS_CARRIERS]
+        ivi_outs_mechanism_carrier_default: OutputMechanismCarrier = ivi_outs_mechanisms_carriers[keywords_task_executor.ARG_OUTS_MECHANISMS_MECHANISM_DEFAULT]
+        ivi_outs_mechanism_default: OutputMechanism = ivi_outs_mechanism_carrier_default.get_data()
+
+        ivi_outs_mechanism_default.write_data("OK! I will remember that.")
+        # TODO: Find a real way to remember those un-preferred locations.
 
     # Executes the FindMapsExecutor.
     # The main method executed when prediction is directed to this class.
