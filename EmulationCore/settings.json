@@ -22,5 +22,9 @@
   "db_location_mapper_filepath": {
     "display_key": "Path to the database file which contains geo-locations(latitudes, longitudes)",
     "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
+  },
+  "location_acceptance_threshold": {
+    "display_key": "The minimum score that a predicted location should have to be recognized as a valid location.(Between 0 and 1)",
+    "value": "0.8"
   }
 }

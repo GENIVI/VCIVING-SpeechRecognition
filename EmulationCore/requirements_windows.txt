@@ -4,4 +4,4 @@ pywin32==223
 SpeechRecognition==3.8.1
 numpy==1.14.3
 nltk==3.3
-emucorebrain==0.5
+emucorebrain==0.5.3

@@ -3,5 +3,5 @@ pyttsx3==2.7
 SpeechRecognition==3.8.1
 numpy==1.14.3
 nltk==3.3
-emucorebrain==0.5.2
+emucorebrain==0.5.3
 pip==9.0.3
