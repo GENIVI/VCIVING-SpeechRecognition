@@ -4,6 +4,9 @@ import abc
 
 
 class OutputMechanism(abc.ABC):
+
+    CONTAINER_KEY = None
+
     # This method is used to output/write data to the output mechanism.
     # It may or may not block the thread, really depends on what mechanism is used.
     # To find out whether the thread is blocked by this method, head over to respective mechanism.

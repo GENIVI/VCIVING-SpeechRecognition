@@ -4,6 +4,9 @@ import abc
 # This is the "interface" class for all the input mechanisms
 # Each an every input mechanism defined inside the mechanisms, should extend this class
 class InputMechanism(abc.ABC):
+
+    CONTAINER_KEY = None
+
     # This method is used to start listening on the device associated with the output mechanism
     # It would just be a simple function call to the input device which starts grabbing data from that respective
     # device.
