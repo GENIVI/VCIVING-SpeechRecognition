@@ -3,6 +3,7 @@ import os, operator
 from FindMapsExecutor.db.bigdata import BigDataFile
 from FindMapsExecutor.db.locationdb import LocationDB
 from FindMapsExecutor.db.preprocessors import LocationPreProcessor
+from FindMapsExecutor.db.locationdb import GeoLocation
 
 
 class Predictor:
@@ -37,28 +38,65 @@ class Predictor:
 
         return real_locations
 
+    def _get_real_locations_and_norm_frequencies_for_assumed_location(self, phrase):
+        real_location_frequencies = self._get_real_locations_and_frequencies_for_assumed_location(phrase)
+        factor = 1.0 / max(real_location_frequencies.items(), key=operator.itemgetter(1))[1]
+        for real_location in real_location_frequencies:
+            real_location_frequencies[real_location] *= factor
+
+        return real_location_frequencies
+
+    def get_geo_locations_from_real_locations_and_frequencies(self, real_location_frequencies):
+        geo_location_frequencies = {}
+        for real_location in real_location_frequencies:
+            str_geo_location = self._mapper_db.get(real_location)
+            if str_geo_location is not None:
+                kwargs = {
+                    GeoLocation.ARG_LOCATION_NAME: real_location,
+                    GeoLocation.ARG_PARSE_STRING_GEOLOCATION: str_geo_location
+                }
+            else:
+                kwargs = {
+                    GeoLocation.ARG_LOCATION_NAME: real_location,
+                    GeoLocation.ARG_LATITUDE: None,
+                    GeoLocation.ARG_LONGITUDE: None
+                }
+            geo_location = GeoLocation(**kwargs)
+            geo_location_frequencies[geo_location] = real_location_frequencies[real_location]
+
+        return geo_location_frequencies
+
+    def get_geo_locations_and_frequencies_for_phrase(self, phrase):
+        real_location_frequencies = self._get_real_locations_and_frequencies_for_assumed_location(phrase)
+        return self.get_geo_locations_from_real_locations_and_frequencies(real_location_frequencies)
+
+    def get_geo_locations_and_norm_frequencies_for_phrase(self, phrase):
+        real_location_norm_frequencies = self._get_real_locations_and_norm_frequencies_for_assumed_location(phrase)
+        return self.get_geo_locations_from_real_locations_and_frequencies(real_location_norm_frequencies)
+
     def get_real_location_for_phrase(self, phrase):
         real_locations_frequencies = self._get_real_locations_and_frequencies_for_assumed_location(phrase)
         real_location = max(real_locations_frequencies.items(), key=operator.itemgetter(1))[0]
         return real_location
 
-    def get_geo_location_for_phrase(self, phrase, return_location_name=False):
+    def get_geo_location_for_phrase(self, phrase):
         real_location = self.get_real_location_for_phrase(phrase)
 
         if real_location is not None:
             str_geo_location = self._mapper_db.get(real_location)
             if str_geo_location is not None:
-                geo_location = str_geo_location.split(BigDataFile.TEXT_FILE_DATA_SUB_SEPARATOR)
-                if return_location_name:
-                    return real_location, geo_location[0], geo_location[1]
-                else:
-                    return geo_location[0], geo_location[1]
+                kwargs = {
+                    GeoLocation.ARG_LOCATION_NAME: real_location,
+                    GeoLocation.ARG_PARSE_STRING_GEOLOCATION: str_geo_location
+                }
+                return GeoLocation(**kwargs)
             else:
-                if return_location_name:
-                    return str_geo_location, None, None
+                kwargs = {
+                    GeoLocation.ARG_LOCATION_NAME: real_location,
+                    GeoLocation.ARG_LATITUDE: None,
+                    GeoLocation.ARG_LONGITUDE: None
+                }
+                return GeoLocation(**kwargs)
 
-        if return_location_name:
-            return None, None, None
-        else:
-            return None, None
+        return None
 
