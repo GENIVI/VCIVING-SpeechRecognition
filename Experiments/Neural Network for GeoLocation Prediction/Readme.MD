@@ -24,7 +24,7 @@ Before continuing read more: https://at.projects.genivi.org/wiki/display/PROJ/Ex
     2. You need Tensorflow framework installed. Follow the [official guide here](https://www.tensorflow.org/install/) to get it installed.
        You will be offered the GPU or CPU version. Either of them would work.
 
-- Change the following constants in train.py
+- Change the following constants in train.py **only if needed**
   1. **_train_data_filepath**: Path to the training dataset text(.txt) file.
   2. **_train_model_save_folderpath**: Path to the directory in which the trained model is saved together with other serialized objects.
   3. **_training_feature_dict_size**: Size of the dictionary for the tokenizers. Increment in the size would enhance the security in the cost of training time and memory usage during training process.
