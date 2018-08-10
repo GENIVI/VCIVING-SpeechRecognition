@@ -29,10 +29,22 @@
   },
   "8": {
     "name": "emucorebrain",
-    "version": "0.4"
+    "version": "0.5.3"
   },
   "9": {
     "name": "bsddb3",
     "version": "6.2.6"
+  },
+  "10": {
+    "name": "inflect",
+    "version": "1.0.0"
+  },
+  "11": {
+    "name": "word2number",
+    "version": "1.1"
+  },
+  "12": {
+    "name": "SpeechRecognition",
+    "version": "3.8.1"
   }
 }

@@ -13,3 +13,7 @@ VCIVING is a voice controlling system for IVI. It's more or less an assistant to
 - EmulationCore: Entry points to the system. Contains mainly the event handlers and directives to various sections of the system and performs functions such as speech recognition and interpretation.
 - TaskExecutors: Interfaces which addresses functions related to the IVI system such as playing music.
 - Trainer: The scripts for training various models such as Speech Interpretation.
+
+## Installation
+Build instructions and project pages are found here:
+https://at.projects.genivi.org/wiki/display/PROJ/%5BGSOC+2018%5D+VCIVING+Voice+Control+for+IVI+Next+Generation

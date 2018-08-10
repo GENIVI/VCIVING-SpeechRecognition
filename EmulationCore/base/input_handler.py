@@ -4,7 +4,7 @@ from base import output_handler
 from ins.microphone import InputMicrophone
 from base.input_processor import InputProcessor
 from emucorebrain.data.containers.settings import SettingsContainer
-from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism
+from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, Grabber, GrabberController
 
 # This is the default output mechanism used to output anything in the input processing section.
 
@@ -44,8 +44,13 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
             if exception == SR.UnknownValueError:
                 pass
             elif exception == SR.RequestError:
-                output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism, data="Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True, log=True)
-    microphone_input = InputMicrophone(_ivi_process_microphone_data)
+                output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
+                                                    data="Google Cloud API Error. Could not interpret your speech.",
+                                                    wait_until_completed=True, log=True)
+    # Initialize the Grabbers and GrabberControllers
+    grabbers_list = [Grabber(_ivi_process_microphone_data)]
+    grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
+    microphone_input = InputMicrophone(grabber_controller)
     microphone_input.start_listening()
 
     ivi_set_default_input_mechanism(microphone_input)
