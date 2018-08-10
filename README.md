@@ -9,7 +9,7 @@ VCIVING is a voice controlling system for IVI. It's more or less an assistant to
 
 ## Contents
 
-- Brain: Interaces and classes required for basic functionality such as grabbing inputs, providing outputs and also the classes required to   train the models.
-- EmulationCore: Entry points to the system, Contains mainly the event handlers and directives to various sections of the system, Performs   functions such as speech recognition and interpretation.
-- TaskExecutors: The interfaces which addresses functions related to the IVI system such as playing music.
+- Brain: Interfaces and classes required for basic functionality such as grabbing inputs, providing outputs, and also the classes required to train the models.
+- EmulationCore: Entry points to the system. Contains mainly the event handlers and directives to various sections of the system and performs functions such as speech recognition and interpretation.
+- TaskExecutors: Interfaces which addresses functions related to the IVI system such as playing music.
 - Trainer: The scripts for training various models such as Speech Interpretation.
