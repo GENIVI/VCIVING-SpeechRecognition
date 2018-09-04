@@ -14,7 +14,7 @@ from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, Grabber, Gr
 default_input_mechanism : InputMechanism = None
 
 # Following variables defines all the input mechanisms here.
-microphone_input : InputMicrophone = None
+# microphone_input : InputMicrophone = None
 speech_audio_file_input : InputSpeechAudioFile = None
 
 input_processor : InputProcessor = None
@@ -32,29 +32,29 @@ input_processor : InputProcessor = None
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
 def ivi_init_inputs(ivi_settings : SettingsContainer):
-    global input_processor, microphone_input, speech_audio_file_input
+    global input_processor, speech_audio_file_input
 
     # Initializes the InputProcessor
     input_processor = InputProcessor(ivi_settings)
 
     # Initialize the Microphone
-    def _ivi_process_microphone_data(heard_text, exception):
-        if exception is None:
-            print("Read from Microphone: " + heard_text)
-            input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, heard_text)
-        else:
-            if exception == SR.UnknownValueError:
-                pass
-            elif exception == SR.RequestError:
-                output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
-                                                    data="Google Cloud API Error. Could not interpret your speech.",
-                                                    wait_until_completed=True, log=True)
-    # Initialize the Grabbers and GrabberControllers
-    grabbers_list = [Grabber(_ivi_process_microphone_data)]
-    grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
-    # Initialize the Microphone.
-    microphone_input = InputMicrophone(grabber_controller)
-    microphone_input.start_listening()
+    # def _ivi_process_microphone_data(heard_text, exception):
+    #     if exception is None:
+    #         print("Read from Microphone: " + heard_text)
+    #         input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, heard_text)
+    #     else:
+    #         if exception == SR.UnknownValueError:
+    #             pass
+    #         elif exception == SR.RequestError:
+    #             output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
+    #                                                 data="Google Cloud API Error. Could not interpret your speech.",
+    #                                                 wait_until_completed=True, log=True)
+    # # Initialize the Grabbers and GrabberControllers
+    # grabbers_list = [Grabber(_ivi_process_microphone_data)]
+    # grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
+    # # Initialize the Microphone.
+    # microphone_input = InputMicrophone(grabber_controller)
+    # microphone_input.start_listening()
 
     def _ivi_process_speech_audio_file_data(audio_file_path : str):
         try:
@@ -96,20 +96,20 @@ def ivi_set_default_input_mechanism(mechanism : InputMechanism):
 
 # Starts all the input mechanisms and asks them to grab the inputs.
 def ivi_start_inputs():
-    microphone_input.start_listening()
+    # microphone_input.start_listening()
     speech_audio_file_input.start_listening()
     # Start all other input mechanisms
 
 
 # Stops all the input mechanisms from grabbing the inputs.
 def ivi_stop_inputs(kill_permanently=False):
-    microphone_input.stop_listening(kill_permanently=kill_permanently)
+    # microphone_input.stop_listening(kill_permanently=kill_permanently)
     speech_audio_file_input.stop_listening()
     # Stop all other input mechanisms
 
 def ivi_get_ins_mechanisms():
     return {
-        InputMicrophone.CONTAINER_KEY: microphone_input,
+        # InputMicrophone.CONTAINER_KEY: microphone_input,
         InputSpeechAudioFile.CONTAINER_KEY: speech_audio_file_input,
         # Add all other input mechanisms here.
     }
