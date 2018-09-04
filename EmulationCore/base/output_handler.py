@@ -57,5 +57,5 @@ def output_via_mechanism(mechanism: OutputMechanism, data, wait_until_completed=
 def ivi_get_outs_mechanisms():
     return {
         OutputSpeaker.CONTAINER_KEY: speaker_output,
-        # Add all other ioutput mechanisms here.
+        # Add all other output mechanisms here.
     }

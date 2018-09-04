@@ -9,6 +9,7 @@ import time
 # Temporary content which is to be changed in the coming days
 from emucorebrain.io.mechanisms.ins_mechanism import GrabberController
 from ins.microphone import InputMicrophone
+from ins.speech_audio_file import InputSpeechAudioFile
 
 ivi_shutdown = False
 
@@ -41,11 +42,12 @@ def grab_text_input():
                     to_utter += " " + splitted_item
 
                 output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism, data=to_utter, wait_until_completed=True, log=False)
-            # "exec_def_im" = execute in default input mechanism
+            # "exec_def_im" = execute in default input mechanism as if recognized by it. Bypasses the recognition step.
             elif splitted_command[0].lower() == "exec_def_im":
                 to_proc = ""
                 for splitted_item in splitted_command[1:]:
-                    to_proc += " " + splitted_item
+                    to_proc += splitted_item + " "
+                to_proc = to_proc[:len(to_proc) - 1]
 
                 # Notify the GrabberController of the Default InputMechanism.
                 default_ins_mechanism_grabber_controller : GrabberController = input_handler.default_input_mechanism.get_grabber_controller()
@@ -53,6 +55,8 @@ def grab_text_input():
                 # order of arguments.
                 if input_handler.default_input_mechanism.CONTAINER_KEY == InputMicrophone.CONTAINER_KEY:
                     default_ins_mechanism_grabber_controller.notify_grabbers(to_proc, None)
+                elif input_handler.default_input_mechanism.CONTAINER_KEY == InputSpeechAudioFile.CONTAINER_KEY:
+                    default_ins_mechanism_grabber_controller.notify_grabbers(to_proc)
                 # For other mechanisms.
 
 

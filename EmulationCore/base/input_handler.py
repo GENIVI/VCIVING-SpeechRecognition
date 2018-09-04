@@ -2,6 +2,7 @@
 import speech_recognition as SR
 from base import output_handler
 from ins.microphone import InputMicrophone
+from ins.speech_audio_file import InputSpeechAudioFile
 from base.input_processor import InputProcessor
 from emucorebrain.data.containers.settings import SettingsContainer
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, Grabber, GrabberController
@@ -14,6 +15,7 @@ default_input_mechanism : InputMechanism = None
 
 # Following variables defines all the input mechanisms here.
 microphone_input : InputMicrophone = None
+speech_audio_file_input : InputSpeechAudioFile = None
 
 input_processor : InputProcessor = None
 
@@ -30,7 +32,7 @@ input_processor : InputProcessor = None
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
 def ivi_init_inputs(ivi_settings : SettingsContainer):
-    global input_processor, microphone_input
+    global input_processor, microphone_input, speech_audio_file_input
 
     # Initializes the InputProcessor
     input_processor = InputProcessor(ivi_settings)
@@ -50,10 +52,36 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
     # Initialize the Grabbers and GrabberControllers
     grabbers_list = [Grabber(_ivi_process_microphone_data)]
     grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
+    # Initialize the Microphone.
     microphone_input = InputMicrophone(grabber_controller)
     microphone_input.start_listening()
 
-    ivi_set_default_input_mechanism(microphone_input)
+    def _ivi_process_speech_audio_file_data(audio_file_path : str):
+        _speech_recognizer = SR.Recognizer()
+        with SR.AudioFile(audio_file_path) as audio_file:
+            audio = _speech_recognizer.record(audio_file)
+
+        try:
+            heard_text = _speech_recognizer.recognize_google(audio)
+            # We can use InputProcessor.PROCESS_TYPE_MICROPHONE_DATA since the same processing is done in the identical
+            # manner as if received by the microphone.
+            input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, heard_text)
+
+        except SR.UnknownValueError:
+            pass
+
+        except SR.RequestError:
+            output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
+                                                data="Google Cloud API Error. Could not interpret your speech.",
+                                                wait_until_completed=True, log=True)
+    # Initialize the Grabbers and GrabberControllers
+    grabbers_list = [Grabber(_ivi_process_speech_audio_file_data)]
+    grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
+    # Initialize the SpeechAudioFile.
+    speech_audio_file_input = InputSpeechAudioFile(grabber_controller)
+
+    # ivi_set_default_input_mechanism(microphone_input)
+    ivi_set_default_input_mechanism(speech_audio_file_input)
 
 # Sets the default input mechanism
 # mechanism: An implementation instance of the InputMechanism class.
@@ -64,16 +92,19 @@ def ivi_set_default_input_mechanism(mechanism : InputMechanism):
 # Starts all the input mechanisms and asks them to grab the inputs.
 def ivi_start_inputs():
     microphone_input.start_listening()
+    speech_audio_file_input.start_listening()
     # Start all other input mechanisms
 
 
 # Stops all the input mechanisms from grabbing the inputs.
 def ivi_stop_inputs(kill_permanently=False):
     microphone_input.stop_listening(kill_permanently=kill_permanently)
+    speech_audio_file_input.stop_listening()
     # Stop all other input mechanisms
 
 def ivi_get_ins_mechanisms():
     return {
         InputMicrophone.CONTAINER_KEY: microphone_input,
+        InputSpeechAudioFile.CONTAINER_KEY: speech_audio_file_input,
         # Add all other input mechanisms here.
     }
