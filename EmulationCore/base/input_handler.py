@@ -57,15 +57,20 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
     microphone_input.start_listening()
 
     def _ivi_process_speech_audio_file_data(audio_file_path : str):
-        _speech_recognizer = SR.Recognizer()
-        with SR.AudioFile(audio_file_path) as audio_file:
-            audio = _speech_recognizer.record(audio_file)
-
         try:
+            _speech_recognizer = SR.Recognizer()
+            with SR.AudioFile(audio_file_path) as audio_file:
+                audio = _speech_recognizer.record(audio_file)
+
             heard_text = _speech_recognizer.recognize_google(audio)
             # We can use InputProcessor.PROCESS_TYPE_MICROPHONE_DATA since the same processing is done in the identical
             # manner as if received by the microphone.
             input_processor.process_data(InputProcessor.PROCESS_TYPE_MICROPHONE_DATA, heard_text)
+
+        except FileNotFoundError:
+            output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
+                                                data="The File you've requested as input is not found.",
+                                                wait_until_completed=True, log=True)
 
         except SR.UnknownValueError:
             pass

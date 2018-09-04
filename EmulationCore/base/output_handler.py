@@ -2,6 +2,7 @@
 from base import input_handler
 from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
 from outs.speaker import OutputSpeaker
+from outs.std_output import StandardOutput
 
 # Following variable sets the default output mechanism used by the system.
 # Defaults to OutputSpeaker instance when ivi_init_outputs is called.
@@ -9,11 +10,12 @@ default_output_mechanism : OutputMechanism = None
 
 # Following variables defines all the output mechanisms here.
 speaker_output : OutputSpeaker = None
+std_output : StandardOutput = None
 
 
 # Initializes all the output mechanisms
 def ivi_init_outputs():
-    global speaker_output
+    global speaker_output, std_output
 
     # Initialize the Speaker
     speaker_output = OutputSpeaker()
@@ -22,7 +24,10 @@ def ivi_init_outputs():
     new_speech_rate = default_speech_rate - 50
     speaker_output.set_speech_rate(new_speech_rate)
 
-    ivi_set_default_ouput_mechanism(speaker_output)
+    std_output = StandardOutput()
+
+    # ivi_set_default_ouput_mechanism(speaker_output)
+    ivi_set_default_ouput_mechanism(std_output)
 
 
 # General Methods
@@ -37,6 +42,7 @@ def ivi_set_default_ouput_mechanism(mechanism : OutputMechanism):
 # Runs all the queued outputs in the OutputMechanisms defined above.
 def ivi_run_outputs():
     speaker_output.run_queued_data()
+    std_output.run_queued_data()
     # Other outputs called here to output their queued data
 
 
@@ -57,5 +63,6 @@ def output_via_mechanism(mechanism: OutputMechanism, data, wait_until_completed=
 def ivi_get_outs_mechanisms():
     return {
         OutputSpeaker.CONTAINER_KEY: speaker_output,
+        StandardOutput.CONTAINER_KEY: std_output,
         # Add all other output mechanisms here.
     }
