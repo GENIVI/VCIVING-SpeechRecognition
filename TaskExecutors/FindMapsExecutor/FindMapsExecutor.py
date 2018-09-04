@@ -33,6 +33,7 @@ class FindMapsExecutor(TaskExecutor):
     SETTING_LOCATION_ACCEPTANCE_MIN_THRESHOLD = "location_acceptance_threshold"
 
     CONTAINER_KEY_INPUT_MICROPHONE = "ins_mechanism_microphone"
+    CONTAINER_KEY_INPUT_SPEECH_AUDIO_FILE = "ins_mechanism_inputspeechaudiofile"
 
     CUTOFF_SCORE_DIFFERENCE_FOR_MULTIPLE_LOCATIONS = 0.5
 
@@ -251,33 +252,52 @@ class FindMapsExecutor(TaskExecutor):
                             # If Default Input Mechanism is InputMicrophone
                             heard_text = args[0]
                             exception = args[1]
+                        elif ivi_ins_mechanism_default.CONTAINER_KEY == FindMapsExecutor.CONTAINER_KEY_INPUT_SPEECH_AUDIO_FILE:
+                            _speech_recognizer = SR.Recognizer()
+                            with SR.AudioFile(args[0]) as audio_file:
+                                audio = _speech_recognizer.record(audio_file)
 
-                            if exception is None:
-                                print("Read from Microphone: " + heard_text)
-                                # Check for index then cancel commands.
-                                # If any of the above ones are not found, say that the command is unrecognized.
-                                number_in_phrase = self._extract_index_from_phrase(heard_text)
-                                if number_in_phrase is not None:
-                                    # TODO: Find a way to check whether the phrase is a positive expression before
-                                    # moving into conclusions. If a phrase like "not the first one" is uttered, this
-                                    # method would identify the meant index as the first one. Find a remedy for this
-                                    # by having something like sentimental analysis(not the exact idea of it though)
-                                    index_for_number_in_phrase = number_in_phrase - 1
-                                    ivi_outs_mechanism_default.write_data("Sure! I will open that up for you.", wait_until_completed=True)
-                                    geo_location_to_open : GeoLocation = sorted_geo_locations_and_scores[index_for_number_in_phrase][0]
-                                    self._manage_location_and_open_in_browser(geo_location=geo_location_to_open, ivi_outs_mechanism_default=ivi_outs_mechanism_default)
+                            try:
+                                heard_text = _speech_recognizer.recognize_google(audio)
+                                exception = None
 
-                                    outs_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
-                                else:
-                                    # TODO: Extract the number or "Cancel" from the heard speech if there is no exception.
-                                    # If cancel was heard pop out the Grabber.
+                            except SR.UnknownValueError:
+                                heard_text = None
+                                exception = SR.UnknownValueError
 
-                                    ivi_outs_mechanism_default.write_data("I'm extremely sorry. I cannot recognize which one to be opened. Can you please try saying again?", wait_until_completed=True)
+                            except SR.RequestError:
+                                heard_text = None
+                                exception = SR.RequestError
+                        else:
+                            heard_text = None
+                            exception = None
+
+                        if exception is None:
+                            print("Read from Microphone: " + heard_text)
+                            # Check for index then cancel commands.
+                            # If any of the above ones are not found, say that the command is unrecognized.
+                            number_in_phrase = self._extract_index_from_phrase(heard_text)
+                            if number_in_phrase is not None:
+                                # TODO: Find a way to check whether the phrase is a positive expression before
+                                # moving into conclusions. If a phrase like "not the first one" is uttered, this
+                                # method would identify the meant index as the first one. Find a remedy for this
+                                # by having something like sentimental analysis(not the exact idea of it though)
+                                index_for_number_in_phrase = number_in_phrase - 1
+                                ivi_outs_mechanism_default.write_data("Sure! I will open that up for you.", wait_until_completed=True)
+                                geo_location_to_open : GeoLocation = sorted_geo_locations_and_scores[index_for_number_in_phrase][0]
+                                self._manage_location_and_open_in_browser(geo_location=geo_location_to_open, ivi_outs_mechanism_default=ivi_outs_mechanism_default)
+
+                                outs_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
                             else:
-                                if exception == SR.UnknownValueError:
-                                    pass
-                                elif exception == SR.RequestError:
-                                    ivi_outs_mechanism_default.write_data("Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True)
+                                # TODO: Extract the number or "Cancel" from the heard speech if there is no exception.
+                                # If cancel was heard pop out the Grabber.
+
+                                ivi_outs_mechanism_default.write_data("I'm extremely sorry. I cannot recognize which one to be opened. Can you please try saying again?", wait_until_completed=True)
+                        else:
+                            if exception == SR.UnknownValueError:
+                                pass
+                            elif exception == SR.RequestError:
+                                ivi_outs_mechanism_default.write_data("Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True)
                         # For any other InputMechanisms
                     outs_default_mechanism_grabber_controller.pop_in_grabber(Grabber(ins_default_mechanism_grab_next_inputs), GrabberController.MAX_PRIORITY_INDEX)
             else:
