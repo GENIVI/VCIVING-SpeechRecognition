@@ -12,4 +12,4 @@ In order to make use of DeepSpeech,
     * sr_lm_file_path: Path to the binary file in the archive(Usually called lm.binary)
     * sr_trie_file_path: Path to the file without extensions(Usually named as trie)
     
-3. If you have GPU support on your platform/device, please consider installing deepspeech-gpu package. Checkout the instructions at [DeepSpeech Repository](https://github.com/mozilla/DeepSpeech)
+3. If you have GPU support on your platform/device, please consider installing deepspeech-gpu package. Checkout the instructions at [DeepSpeech Repository](https://github.com/mozilla/DeepSpeech). Otherwise, please continue with the installation instructions on your platform. That would fetch the required deepspeech package.
