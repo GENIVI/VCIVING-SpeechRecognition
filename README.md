@@ -17,3 +17,8 @@ VCIVING is a voice controlling system for IVI. It's more or less an assistant to
 ## Installation
 Build instructions and project pages are found here:
 https://at.projects.genivi.org/wiki/display/PROJ/%5BGSOC+2018%5D+VCIVING+Voice+Control+for+IVI+Next+Generation
+
+## Special Note
+
+We've incorporated [Mozilla DeepSpeech](https://github.com/mozilla/DeepSpeech) on to EmulationCore instead of Google Speech Recognition APIs. Please consult [this page](EmulationCore/README.MD) during the installation.
+More details will be added later.
