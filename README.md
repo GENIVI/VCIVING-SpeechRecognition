@@ -20,5 +20,5 @@ https://at.projects.genivi.org/wiki/display/PROJ/%5BGSOC+2018%5D+VCIVING+Voice+C
 
 ## Special Note
 
-We've incorporated [Mozilla DeepSpeech](https://github.com/mozilla/DeepSpeech) on to EmulationCore instead of Google Speech Recognition APIs. Please consult [this page](EmulationCore/README.MD) during the installation.
+We've incorporated [Mozilla DeepSpeech](https://github.com/mozilla/DeepSpeech) on to EmulationCore instead of Google Speech Recognition APIs. Please consult [this page](https://github.com/GENIVI/GENIVI-GSoC-18/blob/migration/DeepSpeech/EmulationCore/Readme.MD) during the installation.
 More details will be added later.
