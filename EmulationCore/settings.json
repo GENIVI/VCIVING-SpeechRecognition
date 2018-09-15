@@ -1,7 +1,23 @@
 {
+  "sr_model_file_path": {
+    "display_key": "Path to the trained model file(usually the pb file) using DeepSpeech",
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/python/deepspeech/models/output_graph.pb"
+  },
+  "sr_alphabet_file_path": {
+    "display_key": "Path to the alphabet file(usually the alphabet.txt file) resulting through DeepSpeech training process.",
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/python/deepspeech/models/alphabet.txt"
+  },
+  "sr_lm_file_path": {
+    "display_key": "Path to the lm file(usually the lm.binary file) resulting through DeepSpeech training process.",
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/python/deepspeech/models/lm.binary"
+  },
+  "sr_trie_file_path": {
+    "display_key": "Path to the trie file(usually the trie file) resulting through DeepSpeech training process.",
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/python/deepspeech/models/trie"
+  },
   "tasks_model_filepath": {
     "display_key": "File path to the pre trained Task Prediction model",
-    "value": "D:/GENIVI/Projects/Trainer/speech_interpreter/model/model.json"
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/genivi/GENIVI-GSoC-18/Trainer/speech_interpreter/model/model.json"
   },
   "tasks_prediction_threshold": {
     "display_key": "Prediction Acceptance Threshold",
@@ -9,22 +25,18 @@
   },
   "tasks_namespaces_folderpath": {
     "display_key": "Path to the Folder containing Task Executors",
-    "value": "D:/GENIVI/Projects/TaskExecutors"
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/genivi/GENIVI-GSoC-18/TaskExecutors"
   },
   "local_music_folderpath": {
     "display_key": "Path to the Local Song Database Folder",
-    "value": "D:/Downloads/Music"
+    "value": "/home/chandeepa/Music"
   },
   "db_location_names_filepath": {
     "display_key": "Path to the database file which contains location names",
-    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/genivi/GENIVI-GSoC-18/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
   },
   "db_location_mapper_filepath": {
     "display_key": "Path to the database file which contains geo-locations(latitudes, longitudes)",
-    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
-  },
-  "location_acceptance_threshold": {
-    "display_key": "The minimum score that a predicted location should have to be recognized as a valid location.(Between 0 and 1)",
-    "value": "0.8"
+    "value": "/media/chandeepa/ChandeepaHDD2/Ubuntu/genivi/GENIVI-GSoC-18/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
   }
 }

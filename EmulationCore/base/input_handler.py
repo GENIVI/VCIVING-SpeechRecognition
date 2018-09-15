@@ -50,7 +50,7 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
     # Initialize the Grabbers and GrabberControllers
     grabbers_list = [Grabber(_ivi_process_microphone_data)]
     grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
-    microphone_input = InputMicrophone(grabber_controller)
+    microphone_input = InputMicrophone(grabber_controller, ivi_settings)
     microphone_input.start_listening()
 
     ivi_set_default_input_mechanism(microphone_input)
