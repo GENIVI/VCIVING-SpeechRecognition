@@ -29,7 +29,7 @@ input_processor : InputProcessor = None
 # tasks_namespaces_folderpath:  The path to the folder containing all the classes implementing the tasks given by the
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
-def ivi_init_inputs(ivi_settings : SettingsContainer):
+def ivi_init_inputs(ivi_settings: SettingsContainer):
     global input_processor, microphone_input
 
     # Initializes the InputProcessor
@@ -50,7 +50,7 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
     # Initialize the Grabbers and GrabberControllers
     grabbers_list = [Grabber(_ivi_process_microphone_data)]
     grabber_controller = GrabberController(grabber_list=grabbers_list, notify_all=False)
-    microphone_input = InputMicrophone(grabber_controller)
+    microphone_input = InputMicrophone(ivi_settings=ivi_settings, grabber_controller=grabber_controller)
     microphone_input.start_listening()
 
     ivi_set_default_input_mechanism(microphone_input)

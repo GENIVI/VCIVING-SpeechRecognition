@@ -2,3 +2,6 @@
 SETTINGS_MODEL_FILEPATH = "tasks_model_filepath"
 SETTINGS_PREDICTION_THRESHOLD = "tasks_prediction_threshold"
 SETTINGS_TASKS_NAMESPACES_FOLDERPATH = "tasks_namespaces_folderpath"
+SETTINGS_SR_ACOUSTIC_PARAMS_DIRECTORY = "sr_acoustic_parameters_directory"
+SETTINGS_SR_LANGUAGE_MODEL_FILE = "sr_language_model_file"
+SETTINGS_SR_PHONEME_DICT_FILE = "sr_phoneme_dictionary_file"

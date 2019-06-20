@@ -1,7 +1,7 @@
 {
   "tasks_model_filepath": {
     "display_key": "File path to the pre trained Task Prediction model",
-    "value": "D:/GENIVI/Projects/Trainer/speech_interpreter/model/model.json"
+    "value": "D:/Dev/GENIVI/Projects/Trainer/speech_interpreter/model/model.json"
   },
   "tasks_prediction_threshold": {
     "display_key": "Prediction Acceptance Threshold",
@@ -9,7 +9,7 @@
   },
   "tasks_namespaces_folderpath": {
     "display_key": "Path to the Folder containing Task Executors",
-    "value": "D:/GENIVI/Projects/TaskExecutors"
+    "value": "D:/Dev/GENIVI/Projects/TaskExecutors"
   },
   "local_music_folderpath": {
     "display_key": "Path to the Local Song Database Folder",
@@ -17,14 +17,26 @@
   },
   "db_location_names_filepath": {
     "display_key": "Path to the database file which contains location names",
-    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
+    "value": "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
   },
   "db_location_mapper_filepath": {
     "display_key": "Path to the database file which contains geo-locations(latitudes, longitudes)",
-    "value": "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
+    "value": "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
   },
   "location_acceptance_threshold": {
     "display_key": "The minimum score that a predicted location should have to be recognized as a valid location.(Between 0 and 1)",
     "value": "0.8"
+  },
+  "sr_acoustic_parameters_directory": {
+    "display_key": "Acoustic Parameters Directory for CMUSphinx Speech Recognition Model",
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/cmusphinx-en-us-5.2"
+  },
+  "sr_language_model_file": {
+    "display_key": "Language Model file path for CMUSphinx Speech Recognition Model",
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/en-70k-0.2.lm/en-70k-0.2.lm"
+  },
+  "sr_phoneme_dictionary_file": {
+    "display_key": "Phoneme Dictionary file path for CMUSphinx Speech Recognition Model",
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/dict/cmudict.dict"
   }
 }

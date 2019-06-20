@@ -5,17 +5,19 @@
 # Can be cloned from https://github.com/Uberi/speech_recognition
 import speech_recognition as SR
 from threading import Thread
+
+from emucorebrain.data.containers.settings import SettingsContainer
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, GrabberController
 import time
-
+import base.consts.tasks as tasks_consts
 
 class InputMicrophone(InputMechanism):
-
-    CONTAINER_KEY = "ins_mechanism_microphone"
 
     # Following time is the time which the thread should wait after one cycle of listening to microphone.
     # It is used to prevent microphone and the thread being overloaded with instructions and malfunctioning.
     # 1 second = 1000 milliseconds
+    CONTAINER_KEY = "ins_mechanism_microphone"
+
     TIME_SLEEP_PER_CYCLE = 0.01
 
     # Constructor
@@ -29,7 +31,7 @@ class InputMicrophone(InputMechanism):
     #               be set to the text data of the audio heard and the second parameter(Exception) will be None.
     #               If any exception occurs, first parameter(string) will be none and the second parameter(Exception)
     #               will be set to the exception occurred.
-    def __init__(self, grabber_controller : GrabberController):
+    def __init__(self, ivi_settings: SettingsContainer, grabber_controller: GrabberController):
         self._grabber_controller = grabber_controller
 
         # Create new Recognizer object which contains different calls to use different APIs
@@ -41,7 +43,11 @@ class InputMicrophone(InputMechanism):
 
         def _recognize_audio_to_text(heard_speech):
             try:
-                spoken_raw_text = self._speech_recognizer.recognize_google(heard_speech)
+                spoken_raw_text = self._speech_recognizer.recognize_sphinx(heard_speech, (
+                    ivi_settings.get_setting(tasks_consts.SETTINGS_SR_ACOUSTIC_PARAMS_DIRECTORY),
+                    ivi_settings.get_setting(tasks_consts.SETTINGS_SR_LANGUAGE_MODEL_FILE),
+                    ivi_settings.get_setting(tasks_consts.SETTINGS_SR_PHONEME_DICT_FILE)
+                ))
                 if self._speech_microphone_listening_state:
                     self._speech_last_heard_text = spoken_raw_text
                     grabber_controller.notify_grabbers(spoken_raw_text, None)
