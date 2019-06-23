@@ -29,14 +29,14 @@
   },
   "sr_acoustic_parameters_directory": {
     "display_key": "Acoustic Parameters Directory for CMUSphinx Speech Recognition Model",
-    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/cmusphinx-en-us-5.2"
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/pocketsphinx/model/en-us/en-us"
   },
   "sr_language_model_file": {
     "display_key": "Language Model file path for CMUSphinx Speech Recognition Model",
-    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/en-70k-0.2.lm/en-70k-0.2.lm"
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/pocketsphinx/model/en-us/en-us.lm.bin"
   },
   "sr_phoneme_dictionary_file": {
     "display_key": "Phoneme Dictionary file path for CMUSphinx Speech Recognition Model",
-    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/models/dict/cmudict.dict"
+    "value": "D:/Dev/GENIVI/Stage 2/cmusphinx/pocketsphinx/model/en-us/cmudict-en-us.dict"
   }
 }

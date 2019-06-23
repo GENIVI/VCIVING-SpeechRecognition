@@ -1,6 +1,7 @@
 PyAudio==0.2.11
 pyttsx3==2.7
 SpeechRecognition==3.8.1
+pocketsphinx==0.1.15
 numpy==1.14.3
 nltk==3.3
 emucorebrain==0.5.3

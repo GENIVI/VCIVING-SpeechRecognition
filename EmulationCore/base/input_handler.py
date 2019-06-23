@@ -45,7 +45,7 @@ def ivi_init_inputs(ivi_settings: SettingsContainer):
                 pass
             elif exception == SR.RequestError:
                 output_handler.output_via_mechanism(mechanism=output_handler.default_output_mechanism,
-                                                    data="Google Cloud API Error. Could not interpret your speech.",
+                                                    data="CMU Sphinx Error. Could not interpret your speech.",
                                                     wait_until_completed=True, log=True)
     # Initialize the Grabbers and GrabberControllers
     grabbers_list = [Grabber(_ivi_process_microphone_data)]
