@@ -20,4 +20,4 @@ def add_cli_args(args_help_dict: dict):
     parser = argparse.ArgumentParser()
 
     for arg, help_str in args_help_dict.items():
-        parser.add_argument(arg, help=help_str, action='store_true')
+        parser.add_argument(arg, help=help_str)
