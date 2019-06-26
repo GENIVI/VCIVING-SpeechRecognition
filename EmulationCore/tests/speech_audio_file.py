@@ -42,9 +42,9 @@ if args_exist_status[ARG_AUDIO_FILE_TEXT]:
                 print("Fuzz Score: " + str(score))
 
             except SR.UnknownValueError:
-                print("Google Speech Recognition could not understand audio")
+                print("CMUSphinx Speech Recognition could not understand audio")
             except SR.RequestError as e:
-                print("Could not request results from Google Speech Recognition service; {0}".format(e))
+                print("Could not request results from CMUSphinx Speech Recognition service; {0}".format(e))
     else:
         print("Please provide a file to perform speech recognition. Use --" + ARG_AUDIO_FILE + " option.")
 else:
