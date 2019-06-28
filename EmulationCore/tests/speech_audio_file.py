@@ -1,8 +1,8 @@
 from emucorebrain.data.containers.settings import SettingsContainer
 import base.consts.consts as emucore_consts
+import base.consts.tasks as tasks_consts
 import os
 import speech_recognition as SR
-
 import tests.utils.args_utils as args_utils
 import tests.utils.str_utils as str_utils
 
@@ -22,7 +22,7 @@ args_utils.add_optional_cli_args(ARGUMENTS)
 args_exist_status = args_utils.check_cli_args(args_keys_list)
 args_values = args_utils.get_cli_args(args_keys_list)
 
-ivi_settings = SettingsContainer(emucore_consts.SETTINGS_FILEPATH)
+ivi_settings = SettingsContainer("../" + emucore_consts.SETTINGS_FILEPATH)
 
 def perform_recognition(audio_file_path, expected_text):
     recognizer = SR.Recognizer()
@@ -32,7 +32,11 @@ def perform_recognition(audio_file_path, expected_text):
     try:
         print("Expected Text: " + expected_text)
         print("Speech Recognition in Process...")
-        recognized_text = recognizer.recognize_google(audio)
+        recognized_text = recognizer.recognize_sphinx(audio, (
+            ivi_settings.get_setting(tasks_consts.SETTINGS_SR_ACOUSTIC_PARAMS_DIRECTORY),
+            ivi_settings.get_setting(tasks_consts.SETTINGS_SR_LANGUAGE_MODEL_FILE),
+            ivi_settings.get_setting(tasks_consts.SETTINGS_SR_PHONEME_DICT_FILE)
+        ))
         print("Speech Recognition Completed...")
         print("Transcribed Text: " + recognized_text)
 
