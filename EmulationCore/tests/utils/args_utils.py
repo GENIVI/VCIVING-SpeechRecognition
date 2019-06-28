@@ -21,3 +21,9 @@ def add_cli_args(args_help_dict: dict):
 
     for arg, help_str in args_help_dict.items():
         parser.add_argument(arg, help=help_str)
+
+def add_optional_cli_args(args_help_dict: dict):
+    parser = argparse.ArgumentParser()
+
+    for arg, help_str in args_help_dict.items():
+        parser.add_argument(arg, nargs="?", default=None)
