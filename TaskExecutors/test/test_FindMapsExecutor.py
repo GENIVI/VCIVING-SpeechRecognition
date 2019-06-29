@@ -35,7 +35,7 @@ class TempOutputMechanism(OutputMechanism):
 def find_location_in_sentence(sentence):
     global map_finder
 
-    ivi_settings = SettingsContainer("D:/GENIVI/Projects/EmulationCore/settings.json")
+    ivi_settings = SettingsContainer("D:/Dev/GENIVI/Projects/EmulationCore/settings.json")
     ivi_input_mechanisms_carriers = {
         keywords_task_executor.ARG_INS_MECHANISMS_MECHANISM_DEFAULT: InputMechanismCarrier(TempInputMechanism())
     }
