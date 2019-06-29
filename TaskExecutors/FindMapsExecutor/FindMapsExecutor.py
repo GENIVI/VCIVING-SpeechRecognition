@@ -244,7 +244,7 @@ class FindMapsExecutor(TaskExecutor):
                     ivi_outs_mechanism_default.write_data("Which one did you mean?", wait_until_completed=True)
 
                     # Define a Grabber to get the inputs focused onto FindMapsExecutor until the user responds.
-                    outs_default_mechanism_grabber_controller: GrabberController = ivi_ins_mechanism_default.get_grabber_controller()
+                    ins_default_mechanism_grabber_controller: GrabberController = ivi_ins_mechanism_default.get_grabber_controller()
 
                     def ins_default_mechanism_grab_next_inputs(*args):
                         if ivi_ins_mechanism_default.CONTAINER_KEY == FindMapsExecutor.CONTAINER_KEY_INPUT_MICROPHONE:
@@ -267,7 +267,7 @@ class FindMapsExecutor(TaskExecutor):
                                     geo_location_to_open : GeoLocation = sorted_geo_locations_and_scores[index_for_number_in_phrase][0]
                                     self._manage_location_and_open_in_browser(geo_location=geo_location_to_open, ivi_outs_mechanism_default=ivi_outs_mechanism_default)
 
-                                    outs_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
+                                    ins_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
                                 else:
                                     # TODO: Extract the number or "Cancel" from the heard speech if there is no exception.
                                     # If cancel was heard pop out the Grabber.
@@ -279,7 +279,7 @@ class FindMapsExecutor(TaskExecutor):
                                 elif exception == SR.RequestError:
                                     ivi_outs_mechanism_default.write_data("Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True)
                         # For any other InputMechanisms
-                    outs_default_mechanism_grabber_controller.pop_in_grabber(Grabber(ins_default_mechanism_grab_next_inputs), GrabberController.MAX_PRIORITY_INDEX)
+                    ins_default_mechanism_grabber_controller.pop_in_grabber(Grabber(ins_default_mechanism_grab_next_inputs), GrabberController.MAX_PRIORITY_INDEX)
             else:
                 only_geo_location : GeoLocation = geo_locations_and_scores[geo_locations_and_scores.keys()[0]]
                 self._manage_location_and_open_in_browser(only_geo_location, ivi_outs_mechanism_default)
