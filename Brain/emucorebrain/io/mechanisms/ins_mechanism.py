@@ -3,6 +3,9 @@ import abc
 
 # This is the "interface" class for all the input mechanisms
 # Each an every input mechanism defined inside the mechanisms, should extend this class
+import copy
+
+
 class InputMechanism(abc.ABC):
 
     CONTAINER_KEY = None
@@ -136,8 +139,9 @@ class GrabberController:
     # Pass any number of arguments to be passed directly to Grabber's exec method. Either positional or named.
     def notify_grabbers(self, *args):
         if self._notify_all:
-            for grabber_index in self._grabbers:
-                grabber : Grabber = self._grabbers[grabber_index]
+            grabbers = copy.deepcopy(self._grabbers)
+            for grabber_index in grabbers:
+                grabber : Grabber = grabbers[grabber_index]
                 grabber.exec(*args)
         else:
             if GrabberController.MAX_PRIORITY_INDEX in self._grabbers:
