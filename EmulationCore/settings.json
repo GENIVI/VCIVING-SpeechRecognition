@@ -13,7 +13,7 @@
   },
   "local_music_folderpath": {
     "display_key": "Path to the Local Song Database Folder",
-    "value": "D:/Downloads/Music"
+    "value": "D:/Downloads/IDM/Music"
   },
   "db_location_names_filepath": {
     "display_key": "Path to the database file which contains location names",
