@@ -1,4 +1,4 @@
-import consts
+from speech_interpreter import consts
 from statistics import mean
 from emucorebrain.core.predictor import Predictor
 from . import file_reader

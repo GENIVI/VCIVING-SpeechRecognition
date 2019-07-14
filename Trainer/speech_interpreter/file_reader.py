@@ -1,4 +1,4 @@
-import consts
+from speech_interpreter import consts
 import os
 import json
 
