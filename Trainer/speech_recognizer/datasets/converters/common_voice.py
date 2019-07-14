@@ -1,7 +1,9 @@
+import sys, os
+sys.path.append(os.path.abspath("../../../"))
+
 import pandas as pd
 import speech_recognizer.utils.args_utils as arg_utils
 from pathlib import Path
-import sys, os
 import subprocess
 
 # Following values are constants and cannot be changed.
