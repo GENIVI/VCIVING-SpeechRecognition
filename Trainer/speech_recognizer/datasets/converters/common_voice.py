@@ -98,7 +98,18 @@ print("Started Iterating Dataset...")
 for audio_file_index, entry in dataset.iterrows():
     audio_file_name = entry[TSV_COLUMN_NAME_FILE_NAME]
     audio_file_identifier, _ = os.path.splitext(audio_file_name)
-    audio_file_transcription = entry[TSV_COLUMN_NAME_TRANSCRIPTION]
+    audio_file_transcription: str = entry[TSV_COLUMN_NAME_TRANSCRIPTION]
+    audio_file_transcription = audio_file_transcription.\
+        replace("!", "").\
+        replace(",", ""). \
+        replace(";", "").\
+        replace(":", "").\
+        replace("/", "").\
+        replace("\\", "").\
+        replace("?", "").\
+        replace("\"", "").\
+        replace(". ", " ").\
+        replace(" '", " ")
 
     # Skip missing transcriptions.
     if audio_file_transcription != "":
@@ -108,7 +119,7 @@ for audio_file_index, entry in dataset.iterrows():
         abs_path_audio_file_output = arg_output_dir + "/" + audio_file_identifier + "." + OUTPUT_AUDIO_FORMAT
         print("Attempting to convert the audio file...")
         conversion_process = subprocess.run(["sox", abs_path_audio_file_input, "-r", str(OUTPUT_AUDIO_SAMPLING_RATE), "-c", str(OUTPUT_AUDIO_CHANNELS), "-b", str(OUTPUT_AUDIO_BITRATE), abs_path_audio_file_output])
-        if conversion_process.returncode == 0:
+        if conversion_process.returncode == 0 and file_exists(abs_path_audio_file_output):
             print("Audio file conversion Successful.")
 
             try:
