@@ -1,12 +1,13 @@
 # This is the "interface" class for all the tasks(basic functions that vehicle should perform)
 # Each an every task should implement this.
 import abc
+from emucorebrain.data.models.route_model import RouteModel
 
 
 class TaskExecutor(abc.ABC):
 
     VALID_TASK_EXECUTOR = True
-    DEFAULT_NAME_RUN_METHOD = "run"
+    DEFAULT_NAME_RUN_METHOD = RouteModel.DEFAULT_NAME_RUN_METHOD
 
     # This method is used to handle any negative-type speech input to the same task type defined in run method.
     # This method is NOT the default method that would run if Task Executor is directly called.

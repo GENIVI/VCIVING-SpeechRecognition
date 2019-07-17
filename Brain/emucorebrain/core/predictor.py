@@ -138,7 +138,7 @@ class Predictor:
 
                         if os.path.exists(executor_folder_path):
                             executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
-                            executor_name = executor_route_model.get_name_task_executor()
+                            executor_name = executor_route_model.get_class_name()
                             executor_file_name = executor_name + ".py"
                             executor_file_path = executor_folder_path + "/" + executor_file_name
 
@@ -181,7 +181,7 @@ class Predictor:
         executors = structure_definitions_file_data[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS]
         for executor in executors:
             executor_route_model = RouteModel(executor[consts.TASKS_STRUCT_FILE_PROP_EXECUTORS_CLASS])
-            executor_name = executor_route_model.get_name_task_executor()
+            executor_name = executor_route_model.get_class_name()
 
             unique_class_import_name = executor_name + "." + executor_name
             class_namespace_class = getattr(importlib.import_module(unique_class_import_name), executor_name)
