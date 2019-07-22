@@ -75,7 +75,7 @@ def _run_validation_on_namespace_dir(processes_namespaces_folder_path):
                                 assert _is_valid_process(unique_class_object)
 
                             except AssertionError:
-                                raise Exception( "One of the namespaces in the tasks directory does not implement Process.")
+                                raise Exception("One of the namespaces in the tasks directory does not implement Process.")
 
                             except Exception:
                                 raise Exception("Unexpected error. MAYBE the file(s) in the tasks directory you've provided contains ambiguous class names.")
@@ -95,7 +95,7 @@ def get_loaded_namespaces(procceses_namespaces_folderpath):
     # the parent directory. Therefore it in not necessary to append them here again.
     _run_validation_on_namespace_dir(procceses_namespaces_folderpath)
 
-    class_namespaces = {}
+    class_namespaces = []
 
     structure_definitions_file_path = procceses_namespaces_folderpath + "/" + consts.PROCESSES_STRUCT_FILE_FILENAME
     structure_definitions_file_data = open(structure_definitions_file_path).read()
@@ -108,6 +108,6 @@ def get_loaded_namespaces(procceses_namespaces_folderpath):
         unique_class_import_name = process_name + "." + process_name
         class_namespace_class = getattr(importlib.import_module(unique_class_import_name), process_name)
         class_namespace_instance = class_namespace_class()
-        class_namespaces[process_name] = class_namespace_instance
+        class_namespaces.append(class_namespace_instance)
 
     return class_namespaces

@@ -120,18 +120,6 @@ class PreProcessor:
         else:
             return False, tasks_directory_path + " is an invalid directory."
 
-    def get_sentence_patterns(self, sentence):
-        tokenized_words = nltk.word_tokenize(sentence)
-        stemmed_words = [self._stemmer.stem(tokenized_word.lower()) for tokenized_word in tokenized_words]
-
-        patterns = [0] * len(self._word_list)
-        for stemmed_word in stemmed_words:
-            for index, trainingSet_word in enumerate(self._word_list):
-                if stemmed_word == trainingSet_word:
-                    patterns[index] = 1
-
-        return patterns
-
     @staticmethod
     def get_sentence_patterns(sentence, word_list):
         tokenized_words = nltk.word_tokenize(sentence)

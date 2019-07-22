@@ -4,6 +4,8 @@ import abc
 # Each an every process defined, should extend this class.
 
 
+# Processes are executed throughout the execution life cycle, regardless of user's input.
+# Therefore must use lockers together with them.
 class Process(abc.ABC):
 
     VALID_PROCESS = True
@@ -13,7 +15,7 @@ class Process(abc.ABC):
     # Can be used in any form can initialize variables/can actually start the process or any other stuff.
     # Note: Never use threads to run the iteration method, run it over the exec_iter method to ensure that I/O doesn't get mixed up.
     @abc.abstractmethod
-    def start_process(self):
+    def start_process(self, args):
         pass
 
     # This method is executed in each cycle of the main loop in main program.

@@ -1,13 +1,11 @@
 import abc
 
-
 # This is the "interface" class for all the input mechanisms
 # Each an every input mechanism defined inside the mechanisms, should extend this class
 import copy
 
 
 class InputMechanism(abc.ABC):
-
     CONTAINER_KEY = None
 
     # This method is used to start listening on the device associated with the output mechanism
@@ -56,7 +54,6 @@ class Grabber:
 
 # GrabberController is a class that controls the Grabbers in a certain priority order.
 class GrabberController:
-
     # The constant to identify the highest priority index.
     # Mostly used to debunk the confusion of index being least in numeric value over the highest priority.
     MAX_PRIORITY_INDEX = 0
@@ -65,7 +62,7 @@ class GrabberController:
     # grabber_list: A python list which has it's items in the order of the priority.
     # notify_all: Set True to notify all the Grabbers in sequence of priority when data is received, False to notify
     # only the maximum priority Grabber.
-    def __init__(self, grabber_list : list, notify_all=True):
+    def __init__(self, grabber_list: list, notify_all=True):
         self._grabbers = {}
         for i, grabber in enumerate(grabber_list):
             self._grabbers[i] = grabber
@@ -78,7 +75,7 @@ class GrabberController:
     # priority_index: The index of the priority that the grabber should be added into. Priority index is inversely
     # proportional to the priority. Higher the index, a lower priority is given. If left None, it is assumed that the
     # grabber is given the lowest priority available.
-    def pop_in_grabber(self, grabber : Grabber, priority_index=None):
+    def pop_in_grabber(self, grabber: Grabber, priority_index=None):
         # If priority index is None, assign it one more than the least priority of the current grabbers list,
         # i.e one more than the maximum index.
         if priority_index is None:
@@ -132,7 +129,7 @@ class GrabberController:
     # Sets whether notify_grabbers method calls all the Grabbers' exec method in the order of their priority.
     # state: Set True to notify all the Grabbers in sequence of priority when data is received, False to notify
     # only the maximum priority Grabber.
-    def set_notify_all(self, state : bool):
+    def set_notify_all(self, state: bool):
         self._notify_all = state
 
     # Executes the exec method of all the Grabbers in the order of maximum priority.
@@ -141,11 +138,11 @@ class GrabberController:
         if self._notify_all:
             grabbers = copy.deepcopy(self._grabbers)
             for grabber_index in grabbers:
-                grabber : Grabber = grabbers[grabber_index]
+                grabber: Grabber = grabbers[grabber_index]
                 grabber.exec(*args)
         else:
             if GrabberController.MAX_PRIORITY_INDEX in self._grabbers:
-                grabber : Grabber = self._grabbers[GrabberController.MAX_PRIORITY_INDEX]
+                grabber: Grabber = self._grabbers[GrabberController.MAX_PRIORITY_INDEX]
                 grabber.exec(*args)
             else:
                 raise Exception("There is no single Grabber to be executed.")

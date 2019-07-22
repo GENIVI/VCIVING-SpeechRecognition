@@ -1,5 +1,4 @@
 
-ARG_SPEECH_TEXT_DATA = "speech_data"
 ARG_SETTINGS_CONTAINER = "settings"
 ARG_LOCKERS_CONTAINER = "lockers"
 
