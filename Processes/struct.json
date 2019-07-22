@@ -3,6 +3,9 @@
     "dependencies"
   ],
   "processes": [
-
+    {
+      "namespace" : "RandomQuestionsProcess",
+      "class": "RandomQuestionsProcess"
+    }
   ]
 }
