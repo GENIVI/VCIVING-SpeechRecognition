@@ -3,14 +3,15 @@ import emucorebrain.keywords.task_executor as keywords_task_executor
 from emucorebrain.data.carriers.ins_mechanism import InputMechanismCarrier
 from emucorebrain.data.carriers.outs_mechanism import OutputMechanismCarrier
 from emucorebrain.data.carriers.string import StringCarrier
+from emucorebrain.data.containers.lockers import LockersContainer
 from emucorebrain.data.containers.settings import SettingsContainer
+from emucorebrain.data.models.lockers import LockerTypes
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism
 from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
 from emucorebrain.io.mechanisms.ins_mechanism import Grabber
 from emucorebrain.io.mechanisms.ins_mechanism import GrabberController
 from FindMapsExecutor.db.predictor import Predictor
 from FindMapsExecutor.db.locationdb import GeoLocation
-
 import inflect
 import nltk
 import operator
@@ -169,14 +170,18 @@ class FindMapsExecutor(TaskExecutor):
     # Executes the FindMapsExecutor.
     # The main method executed when prediction is directed to this class.
     def run(self, args):
-        data : StringCarrier = args[keywords_task_executor.ARG_SPEECH_TEXT_DATA]
+        data: StringCarrier = args[keywords_task_executor.ARG_SPEECH_TEXT_DATA]
         ivi_settings: SettingsContainer = args[keywords_task_executor.ARG_SETTINGS_CONTAINER]
+        ivi_lockers: LockersContainer = args[keywords_task_executor.ARG_LOCKERS_CONTAINER]
         ivi_ins_mechanisms_carriers = args[keywords_task_executor.ARG_INS_MECHANISMS_CARRIERS]
         ivi_ins_mechanism_carrier_default: InputMechanismCarrier = ivi_ins_mechanisms_carriers[keywords_task_executor.ARG_INS_MECHANISMS_MECHANISM_DEFAULT]
         ivi_ins_mechanism_default: InputMechanism = ivi_ins_mechanism_carrier_default.get_data()
         ivi_outs_mechanisms_carriers = args[keywords_task_executor.ARG_OUTS_MECHANISMS_CARRIERS]
         ivi_outs_mechanism_carrier_default: OutputMechanismCarrier = ivi_outs_mechanisms_carriers[keywords_task_executor.ARG_OUTS_MECHANISMS_MECHANISM_DEFAULT]
         ivi_outs_mechanism_default: OutputMechanism = ivi_outs_mechanism_carrier_default.get_data()
+
+        te_locker_id_ins_mechanisms = ivi_lockers.add_locker(LockerTypes.INPUT_MECHANISMS)
+        te_locker_id_outs_mechanisms = ivi_lockers.add_locker(LockerTypes.OUTPUT_MECHANISMS)
 
         ivi_outs_mechanism_default.write_data("Please wait while we look for the location for you.", wait_until_completed=True)
         db_location_filepath = ivi_settings.get_setting(FindMapsExecutor.SETTING_LOCATION_DB_NAMES_FILEPATH_KEY)
@@ -205,7 +210,7 @@ class FindMapsExecutor(TaskExecutor):
                 if maximum_score_location_obviousness > FindMapsExecutor.CUTOFF_SCORE_DIFFERENCE_FOR_MULTIPLE_LOCATIONS:
                     # Since the gap is so high, it is obvious that the first location is the only location meant by
                     # the user.
-                    maximum_score_geo_location : GeoLocation = sorted_geo_locations_and_scores[0][0]
+                    maximum_score_geo_location: GeoLocation = sorted_geo_locations_and_scores[0][0]
                     self._manage_location_and_open_in_browser(maximum_score_geo_location, ivi_outs_mechanism_default)
                 else:
                     # The gap between the scores of first and the adjacent location were not so huge, so we continue
@@ -246,7 +251,10 @@ class FindMapsExecutor(TaskExecutor):
                     # Define a Grabber to get the inputs focused onto FindMapsExecutor until the user responds.
                     ins_default_mechanism_grabber_controller: GrabberController = ivi_ins_mechanism_default.get_grabber_controller()
 
-                    def ins_default_mechanism_grab_next_inputs(*args):
+                    locker_id_ins_mechanisms = ivi_lockers.add_locker(LockerTypes.INPUT_MECHANISMS)
+                    locker_id_outs_mechanisms = ivi_lockers.add_locker(LockerTypes.OUTPUT_MECHANISMS)
+
+                    def ins_default_mechanism_grab_next_inputs(*args, _locker_id_ins_mechanisms=locker_id_ins_mechanisms, _locker_id_outs_mechanisms=locker_id_outs_mechanisms):
                         if ivi_ins_mechanism_default.CONTAINER_KEY == FindMapsExecutor.CONTAINER_KEY_INPUT_MICROPHONE:
                             # If Default Input Mechanism is InputMicrophone
                             heard_text = args[0]
@@ -264,10 +272,12 @@ class FindMapsExecutor(TaskExecutor):
                                     # by having something like sentimental analysis(not the exact idea of it though)
                                     index_for_number_in_phrase = number_in_phrase - 1
                                     ivi_outs_mechanism_default.write_data("Sure! I will open that up for you.", wait_until_completed=True)
-                                    geo_location_to_open : GeoLocation = sorted_geo_locations_and_scores[index_for_number_in_phrase][0]
+                                    geo_location_to_open: GeoLocation = sorted_geo_locations_and_scores[index_for_number_in_phrase][0]
                                     self._manage_location_and_open_in_browser(geo_location=geo_location_to_open, ivi_outs_mechanism_default=ivi_outs_mechanism_default)
 
                                     ins_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
+                                    ivi_lockers.remove_locker(_locker_id_ins_mechanisms)
+                                    ivi_lockers.remove_locker(_locker_id_outs_mechanisms)
                                 else:
                                     # TODO: Extract the number or "Cancel" from the heard speech if there is no exception.
                                     # If cancel was heard pop out the Grabber.
@@ -278,11 +288,18 @@ class FindMapsExecutor(TaskExecutor):
                                     pass
                                 elif exception == SR.RequestError:
                                     ivi_outs_mechanism_default.write_data("Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True)
+
+                                ivi_lockers.remove_locker(_locker_id_ins_mechanisms)
+                                ivi_lockers.remove_locker(_locker_id_outs_mechanisms)
+
                         # For any other InputMechanisms
+
                     ins_default_mechanism_grabber_controller.pop_in_grabber(Grabber(ins_default_mechanism_grab_next_inputs), GrabberController.MAX_PRIORITY_INDEX)
             else:
-                only_geo_location : GeoLocation = geo_locations_and_scores[geo_locations_and_scores.keys()[0]]
+                only_geo_location: GeoLocation = geo_locations_and_scores[geo_locations_and_scores.keys()[0]]
                 self._manage_location_and_open_in_browser(only_geo_location, ivi_outs_mechanism_default)
         else:
             ivi_outs_mechanism_default.write_data("We could not find such a place. We're extremely sorry.", wait_until_completed=True)
 
+        ivi_lockers.remove_locker(te_locker_id_ins_mechanisms)
+        ivi_lockers.remove_locker(te_locker_id_outs_mechanisms)

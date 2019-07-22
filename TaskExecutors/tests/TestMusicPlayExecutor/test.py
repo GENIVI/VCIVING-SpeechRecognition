@@ -1,5 +1,4 @@
 import time
-
 from emucorebrain.data.carriers.outs_mechanism import OutputMechanismCarrier
 from emucorebrain.data.carriers.string import StringCarrier
 from emucorebrain.data.containers.settings import SettingsContainer

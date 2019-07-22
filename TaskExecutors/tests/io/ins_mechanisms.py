@@ -1,5 +1,4 @@
 from threading import Thread
-
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, Grabber, GrabberController
 
 
