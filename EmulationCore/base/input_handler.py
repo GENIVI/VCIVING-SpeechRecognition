@@ -1,9 +1,12 @@
 # This handles all the inputs and processes them as necessary.
 import speech_recognition as SR
+from emucorebrain.data.models.lockers import LockerTypes
+
 from base import output_handler
 from ins.microphone import InputMicrophone
 from base.input_processor import InputProcessor
 from emucorebrain.data.containers.settings import SettingsContainer
+from emucorebrain.data.containers.lockers import LockersContainer
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, Grabber, GrabberController
 
 # This is the default output mechanism used to output anything in the input processing section.
@@ -29,11 +32,11 @@ input_processor : InputProcessor = None
 # tasks_namespaces_folderpath:  The path to the folder containing all the classes implementing the tasks given by the
 #                               predictions of the model. Head over to /Brain/data/abstracts/TasksExecutor.py for more
 #                               documentation.
-def ivi_init_inputs(ivi_settings : SettingsContainer):
+def ivi_init_inputs(ivi_settings: SettingsContainer, ivi_lockers: LockersContainer):
     global input_processor, microphone_input
 
     # Initializes the InputProcessor
-    input_processor = InputProcessor(ivi_settings)
+    input_processor = InputProcessor(ivi_settings, ivi_lockers)
 
     # Initialize the Microphone
     def _ivi_process_microphone_data(heard_text, exception):
@@ -57,7 +60,7 @@ def ivi_init_inputs(ivi_settings : SettingsContainer):
 
 # Sets the default input mechanism
 # mechanism: An implementation instance of the InputMechanism class.
-def ivi_set_default_input_mechanism(mechanism : InputMechanism):
+def ivi_set_default_input_mechanism(mechanism: InputMechanism):
     global default_input_mechanism
     default_input_mechanism = mechanism
 

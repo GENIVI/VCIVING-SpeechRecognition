@@ -11,6 +11,10 @@
     "display_key": "Path to the Folder containing Task Executors",
     "value": "D:/Dev/GENIVI/Projects/TaskExecutors"
   },
+  "processes_namespace_folderpath": {
+    "display_key": "Path to the Folder containing Processes(Implementations)",
+    "value": "D:/Dev/GENIVI/Projects/Processes"
+  },
   "local_music_folderpath": {
     "display_key": "Path to the Local Song Database Folder",
     "value": "D:/Downloads/IDM/Music"
@@ -26,5 +30,9 @@
   "location_acceptance_threshold": {
     "display_key": "The minimum score that a predicted location should have to be recognized as a valid location.(Between 0 and 1)",
     "value": "0.8"
+  },
+  "temp_random_question_time_interval": {
+    "display_key": "Temporary Key to store the the time interval between two questions.",
+    "value": "5"
   }
 }

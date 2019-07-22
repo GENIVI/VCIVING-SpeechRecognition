@@ -7,7 +7,9 @@ from emucorebrain.data.carriers.ins_mechanism import InputMechanismCarrier
 from emucorebrain.data.carriers.outs_mechanism import OutputMechanismCarrier
 import emucorebrain.keywords.task_executor as keywords_task_executor
 from emucorebrain.data.containers.settings import SettingsContainer
+from emucorebrain.data.containers.lockers import LockersContainer
 import base.consts.tasks as tasks_consts
+import utils.mechanisms
 
 class InputProcessor:
 
@@ -15,8 +17,9 @@ class InputProcessor:
 
     OUTPUT_DATA_INTERPRET_FAILED = "Failed to recognize the command."
 
-    def __init__(self, ivi_settings : SettingsContainer):
+    def __init__(self, ivi_settings: SettingsContainer, ivi_lockers: LockersContainer):
         self._settings_container = ivi_settings
+        self._lockers_container = ivi_lockers
 
         prediction_model_filepath = ivi_settings.get_setting(tasks_consts.SETTINGS_MODEL_FILEPATH)
         prediction_threshold = float(ivi_settings.get_setting(tasks_consts.SETTINGS_PREDICTION_THRESHOLD))
@@ -38,20 +41,21 @@ class InputProcessor:
                 if prediction is not None:
                     prediction_model = RouteModel(prediction)
 
-                    name_prediction_executor = prediction_model.get_name_task_executor()
+                    name_prediction_executor = prediction_model.get_class_name()
                     prediction_executor = self._class_namespaces[name_prediction_executor]
 
-                    prediction_method = prediction_model.get_executor_method_by_instance(prediction_executor)
+                    prediction_method = prediction_model.get_method_by_class_instance(prediction_executor)
                     args = {
                         keywords_task_executor.ARG_SPEECH_TEXT_DATA: StringCarrier(data),
                         keywords_task_executor.ARG_SETTINGS_CONTAINER: self._settings_container,
+                        keywords_task_executor.ARG_LOCKERS_CONTAINER: self._lockers_container,
                         keywords_task_executor.ARG_INS_MECHANISMS_CARRIERS: {
                             keywords_task_executor.ARG_INS_MECHANISMS_MECHANISM_DEFAULT: InputMechanismCarrier(input_handler.default_input_mechanism),
-                            **self._get_carries_by_mechanisms(InputMechanismCarrier.CARRIER_TYPE, input_handler.ivi_get_ins_mechanisms())
+                            **utils.mechanisms.get_carries_by_mechanisms(InputMechanismCarrier.CARRIER_TYPE, input_handler.ivi_get_ins_mechanisms())
                         },
                         keywords_task_executor.ARG_OUTS_MECHANISMS_CARRIERS: {
                             keywords_task_executor.ARG_OUTS_MECHANISMS_MECHANISM_DEFAULT: OutputMechanismCarrier(output_handler.default_output_mechanism),
-                            **self._get_carries_by_mechanisms(OutputMechanismCarrier.CARRIER_TYPE, output_handler.ivi_get_outs_mechanisms())
+                            **utils.mechanisms.get_carries_by_mechanisms(OutputMechanismCarrier.CARRIER_TYPE, output_handler.ivi_get_outs_mechanisms())
                         }
                     }
                     prediction_method(args)
@@ -62,13 +66,3 @@ class InputProcessor:
             # Other process types goes here.
         else:
             raise Exception("Initialization has been failed.")
-
-    @staticmethod
-    def _get_carries_by_mechanisms(carrier_type, dict_mechanisms):
-        for mechanism_key in dict_mechanisms:
-            if carrier_type == InputMechanismCarrier.CARRIER_TYPE:
-                dict_mechanisms[mechanism_key] = InputMechanismCarrier(dict_mechanisms[mechanism_key])
-            elif carrier_type == OutputMechanismCarrier.CARRIER_TYPE:
-                dict_mechanisms[mechanism_key] = OutputMechanismCarrier(dict_mechanisms[mechanism_key])
-
-        return dict_mechanisms

@@ -5,10 +5,10 @@ from outs.speaker import OutputSpeaker
 
 # Following variable sets the default output mechanism used by the system.
 # Defaults to OutputSpeaker instance when ivi_init_outputs is called.
-default_output_mechanism : OutputMechanism = None
+default_output_mechanism: OutputMechanism = None
 
 # Following variables defines all the output mechanisms here.
-speaker_output : OutputSpeaker = None
+speaker_output: OutputSpeaker = None
 
 
 # Initializes all the output mechanisms
@@ -29,7 +29,7 @@ def ivi_init_outputs():
 
 # Sets the default output mechanism
 # mechanism: An implementation instance of the OutputMechanism class.
-def ivi_set_default_ouput_mechanism(mechanism : OutputMechanism):
+def ivi_set_default_ouput_mechanism(mechanism: OutputMechanism):
     global default_output_mechanism
     default_output_mechanism = mechanism
 

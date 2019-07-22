@@ -29,7 +29,7 @@ class InputMicrophone(InputMechanism):
     #               be set to the text data of the audio heard and the second parameter(Exception) will be None.
     #               If any exception occurs, first parameter(string) will be none and the second parameter(Exception)
     #               will be set to the exception occurred.
-    def __init__(self, grabber_controller : GrabberController):
+    def __init__(self, grabber_controller: GrabberController):
         self._grabber_controller = grabber_controller
 
         # Create new Recognizer object which contains different calls to use different APIs

@@ -1,0 +1,2 @@
+
+SETTINGS_PROCESSES_NAMESPACE_FOLDER_PATH = "processes_namespace_folderpath"
