@@ -5,7 +5,7 @@ from emucorebrain.data.models.lockers import LockerTypes
 from emucorebrain.io.mechanisms.ins_mechanism import InputMechanism, GrabberController, Grabber
 from emucorebrain.io.mechanisms.outs_mechanism import OutputMechanism
 from emucorebrain.processes.core import Process
-import RandomQuestionsProcess.consts.settings as consts_settings
+import RandomQuestionsProcess.consts.settings as keywords_process_third_party
 import emucorebrain.keywords.process as keywords_process
 from threading import Timer
 import random
@@ -54,7 +54,7 @@ class RandomQuestionsProcess(Process):
         self._default_outs_mechanism = ivi_outs_mechanism_carrier_default.get_data()
 
         ivi_settings: SettingsContainer = args[keywords_process.ARG_SETTINGS_CONTAINER]
-        self._interval_timer = int(ivi_settings.get_setting(consts_settings.QUESTION_IMPOSE_TIME_INTERVAL))
+        self._interval_timer = int(ivi_settings.get_setting(keywords_process_third_party.QUESTION_IMPOSE_TIME_INTERVAL))
         self._init_start_timer()
 
     def exec_iter(self):
@@ -79,9 +79,11 @@ class RandomQuestionsProcess(Process):
                             ivi_outs_mechanism_default.write_data("OK! I will remember that", wait_until_completed=True)
                         else:
                             if exception == SR.UnknownValueError:
-                                ivi_outs_mechanism_default.write_data("There was an unexpected error. Let's continue,", wait_until_completed=True)
+                                return
                             elif exception == SR.RequestError:
                                 ivi_outs_mechanism_default.write_data("Google Cloud API Error. Could not interpret your speech.", wait_until_completed=True)
+
+                        ins_default_mechanism_grabber_controller.pop_out_grabber(GrabberController.MAX_PRIORITY_INDEX)
 
                         ivi_lockers.remove_locker(locker_id_ins_mechanisms)
                         ivi_lockers.remove_locker(locker_id_outs_mechanisms)

@@ -10,5 +10,9 @@
   "2": {
     "name": "SpeechRecognition",
     "version": "3.8.1"
+  },
+  "3": {
+    "name": "PyAudio",
+    "version": "0.2.11"
   }
 }

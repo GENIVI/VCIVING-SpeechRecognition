@@ -6,6 +6,10 @@
     {
       "namespace" : "RandomQuestionsProcess",
       "class": "RandomQuestionsProcess"
+    },
+    {
+      "namespace" : "EavesdropProcess",
+      "class": "EavesdropProcess"
     }
   ]
 }

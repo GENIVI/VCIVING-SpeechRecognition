@@ -1,0 +1,4 @@
+
+ARG_EAVESDROP_MODE_STATUS = "eavesdrop_mode_status"
+ARG_EAVESDROP_MODE_SAVE_INTERVAL = "eavesdrop_mode_save_interval"
+ARG_EAVESDROP_MODE_SAVE_FOLDER_PATH = "eavesdrop_mode_save_folder_path"
