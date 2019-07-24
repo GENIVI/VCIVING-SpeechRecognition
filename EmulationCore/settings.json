@@ -31,8 +31,20 @@
     "display_key": "The minimum score that a predicted location should have to be recognized as a valid location.(Between 0 and 1)",
     "value": "0.8"
   },
-  "temp_random_question_time_interval": {
-    "display_key": "Temporary Key to store the the time interval between two questions.",
+  "eavesdrop_mode_status": {
+    "display_key": "Permission to record user's speech as audio seamlessly in the background",
+    "value": "1"
+  },
+  "eavesdrop_mode_save_interval": {
+    "display_key": "Time interval a recording should last (before breaking up for the next recording) (in seconds)",
     "value": "5"
+  },
+  "eavesdrop_mode_save_folder_path": {
+    "display_key": "Absolute path to the folder in which the recorded audio is saved.",
+    "value": "D:/Dev/GENIVI/Stage2/eavesdrop"
+  },
+  "temp_random_question_time_interval": {
+    "display_key": "Temporary Key to store the the time interval between two questions",
+    "value": "30"
   }
 }

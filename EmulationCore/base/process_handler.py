@@ -21,7 +21,7 @@ _ivi_shutdown = False
 
 # Initializes all the processes.
 def init_processes(ivi_settings: SettingsContainer, ivi_lockers: LockersContainer):
-    global _processes, _thread_processes
+    global _processes
 
     processes_namespaces_folder_path = ivi_settings.get_setting(consts_processes.SETTINGS_PROCESSES_NAMESPACE_FOLDER_PATH)
     _processes = processes_namespace.get_loaded_namespaces(processes_namespaces_folder_path)
