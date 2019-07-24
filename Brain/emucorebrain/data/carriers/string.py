@@ -5,11 +5,11 @@ class StringCarrier(Carrier):
 
     CARRIER_TYPE = 2
 
-    def __init__(self, data : str):
+    def __init__(self, data: str):
         self._data = data
 
     def get_data(self):
         return self._data
 
-    def set_data(self, data : str):
+    def set_data(self, data: str):
         self._data = data
