@@ -34,7 +34,7 @@ print("Started Iterating Dataset...")
 for audio_file_index, entry in dataset.iterrows():
     audio_file_name = entry[consts_dataset.TSV_COLUMN_NAME_FILE_NAME]
     audio_file_identifier, _ = os.path.splitext(audio_file_name)
-    audio_file_transcription: str = helpers.get_processed_transcription(entry[consts_dataset.TSV_COLUMN_NAME_TRANSCRIPTION])
+    audio_file_transcription: str = helpers.get_processed_transcription(str(entry[consts_dataset.TSV_COLUMN_NAME_TRANSCRIPTION]))
 
     # Skip missing transcriptions.
     if audio_file_transcription != "":
