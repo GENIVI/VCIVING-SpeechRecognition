@@ -77,6 +77,8 @@ class RandomQuestionsProcess(Process):
                         if exception is None:
                             print("Read from Microphone: " + heard_text)
                             ivi_outs_mechanism_default.write_data("OK! I will remember that", wait_until_completed=True)
+
+                            # TODO: Remember what's being said.
                         else:
                             if exception == SR.UnknownValueError:
                                 return

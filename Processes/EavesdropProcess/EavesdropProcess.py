@@ -1,4 +1,7 @@
+from emucorebrain.data.carriers.outs_mechanism import OutputMechanismCarrier
+from emucorebrain.data.containers.lockers import LockersContainer
 from emucorebrain.data.containers.settings import SettingsContainer
+from emucorebrain.data.models.lockers import LockerTypes
 from emucorebrain.processes.core import Process
 import emucorebrain.keywords.process as keywords_process
 import EavesdropProcess.consts.settings as keywords_process_third_party
@@ -27,7 +30,13 @@ class EavesdropProcess(Process):
     # The created is destroyed when the EmulationCore shuts down.
     def start_process(self, args):
         ivi_settings: SettingsContainer = args[keywords_process.ARG_SETTINGS_CONTAINER]
-        self._is_valid_process = True if int(ivi_settings.get_setting(keywords_process_third_party.ARG_EAVESDROP_MODE_STATUS)) == 1 else False
+        ivi_lockers: LockersContainer = args[keywords_process.ARG_LOCKERS_CONTAINER]
+        ivi_outs_mechanisms_carriers = args[keywords_process.ARG_OUTS_MECHANISMS_CARRIERS]
+        ivi_outs_mechanism_carrier_default: OutputMechanismCarrier = ivi_outs_mechanisms_carriers[keywords_process.ARG_OUTS_MECHANISMS_MECHANISM_DEFAULT]
+        default_outs_mechanism = ivi_outs_mechanism_carrier_default.get_data()
+
+        eavesdrop_mode_status = int(ivi_settings.get_setting(keywords_process_third_party.ARG_EAVESDROP_MODE_STATUS))
+        self._is_valid_process = True if eavesdrop_mode_status == keywords_process_third_party.VALUE_EAVESDROP_MODE_STATUS_ALLOWED else False
 
         if self._is_valid_process:
             self._audio_file_time = int(ivi_settings.get_setting(keywords_process_third_party.ARG_EAVESDROP_MODE_SAVE_INTERVAL))
@@ -40,6 +49,10 @@ class EavesdropProcess(Process):
             # Waits until the message is received that the process is spawned successfully.
             while not int(self._py_process_queue_receive.get()) == consts_queue.PROCESS_FLAG_VALUE_SPAWNED:
                 time.sleep(0.05)
+        elif eavesdrop_mode_status != keywords_process_third_party.VALUE_EAVESDROP_MODE_STATUS_ALLOWED and eavesdrop_mode_status != keywords_process_third_party.VALUE_EAVESDROP_MODE_STATUS_NOT_ALLOWED:
+            locker_id_outs_mechanisms = ivi_lockers.add_locker(LockerTypes.OUTPUT_MECHANISMS)
+            default_outs_mechanism.write_data("You have not changed permissions for record user's speech as audio. Please change the permissions before next run.")
+            ivi_lockers.remove_locker(locker_id_outs_mechanisms)
 
     # Nothing to be done in here as everything runs in a separate process.
     def exec_iter(self):
