@@ -26,7 +26,7 @@ input_handler.ivi_init_inputs(ivi_settings, ivi_lockers)
 process_handler.init_processes(ivi_settings, ivi_lockers)
 process_handler.start_processes()
 # Outputs the status via default output mechanism.
-output_handler.output_via_mechanism(output_handler.default_output_mechanism, "Initialization successful. Waiting for Commands...", wait_until_completed=False, log=True)
+output_handler.output_via_mechanism(output_handler.default_output_mechanism, "Initialization successful. Waiting for Commands.", wait_until_completed=False, log=True)
 
 
 def grab_text_input():
