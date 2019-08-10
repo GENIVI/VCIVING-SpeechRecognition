@@ -1,5 +1,5 @@
 from multiprocessing import Queue
-import EavesdropProcess.consts.queue as consts_queue
+import commons.consts.queue as consts_queue
 
 
 def get_process_flag(queue: Queue):

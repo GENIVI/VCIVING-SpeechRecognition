@@ -6,7 +6,7 @@ from emucorebrain.processes.core import Process
 import emucorebrain.keywords.process as keywords_process
 import EavesdropProcess.consts.settings as keywords_process_third_party
 import multiprocessing
-import EavesdropProcess.consts.queue as consts_queue
+import commons.consts.queue as consts_queue
 import EavesdropProcess.eavesdropsubprocess as eavesdropsubprocess
 import time
 

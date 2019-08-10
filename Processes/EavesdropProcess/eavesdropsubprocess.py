@@ -1,8 +1,8 @@
 import pyaudio
 import multiprocessing
 import EavesdropProcess.consts.recordings as consts_recording
-import EavesdropProcess.consts.queue as consts_queue
-import EavesdropProcess.utils.queue as utils_queue
+import commons.consts.queue as consts_queue
+import commons.utils.queue as utils_queue
 import EavesdropProcess.utils.recordings as utils_recordings
 import time
 import wave

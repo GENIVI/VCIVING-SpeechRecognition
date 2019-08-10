@@ -14,5 +14,9 @@
   "3": {
     "name": "PyAudio",
     "version": "0.2.11"
+  },
+  "4": {
+    "name": "requests",
+    "version": "2.22.0"
   }
 }
