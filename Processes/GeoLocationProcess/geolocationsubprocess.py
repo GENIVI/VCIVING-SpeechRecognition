@@ -23,9 +23,11 @@ def monitor_and_save_location(save_file_abs_path: str, record_intervals: int, qu
         utils_location_log.write_location_to_log_file(save_file_abs_path, location_timestamp, location_latitude, location_longitude)
 
         location_monitor_timer = Timer(record_intervals, exec_monitor_cycle)
+        location_monitor_timer.daemon = True
         location_monitor_timer.start()
 
     location_monitor_timer = Timer(record_intervals, exec_monitor_cycle)
+    location_monitor_timer.daemon = True
     location_monitor_timer.start()
 
     process_destroy_flag: int = utils_queue.get_process_flag(queue_receive)
@@ -34,5 +36,9 @@ def monitor_and_save_location(save_file_abs_path: str, record_intervals: int, qu
 
         while process_destroy_flag == consts_queue.PROCESS_FLAG_VALUE_PAUSE:
             process_destroy_flag = utils_queue.get_process_flag(queue_receive)
+
+            time.sleep(0.05)
+
+        time.sleep(0.05)
 
     location_monitor_timer.cancel()
