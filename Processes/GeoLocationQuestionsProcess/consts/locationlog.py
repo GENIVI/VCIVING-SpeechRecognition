@@ -1,0 +1,5 @@
+
+COLUMN_TIMESTAMP = "Timestamp"
+COLUMN_LATITUDE = "Latitude"
+COLUMN_LONGITUDE = "Longitude"
+COLUMN_ALTITUDE = "Altitude"

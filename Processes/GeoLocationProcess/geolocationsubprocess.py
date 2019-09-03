@@ -18,9 +18,9 @@ def monitor_and_save_location(save_file_abs_path: str, record_intervals: int, qu
         global location_monitor_timer
 
         location_timestamp = str(int(time.time()))
-        location_latitude, location_longitude = locator.get_location()
+        location_latitude, location_longitude, location_altitude = locator.get_location()
 
-        utils_location_log.write_location_to_log_file(save_file_abs_path, location_timestamp, location_latitude, location_longitude)
+        utils_location_log.write_location_to_log_file(save_file_abs_path, location_timestamp, location_latitude, location_longitude, location_altitude)
 
         location_monitor_timer = Timer(record_intervals, exec_monitor_cycle)
         location_monitor_timer.daemon = True

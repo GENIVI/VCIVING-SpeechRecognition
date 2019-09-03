@@ -25,5 +25,7 @@ class IPLocator(Locator):
 
         latitude = result[IPLocator.RESPONSE_KEY_LATITUDE]
         longitude = result[IPLocator.RESPONSE_KEY_LONGITUDE]
+        # Since altitude cannot be provided by IP Locations, it is set to 0
+        altitude = 0
 
-        return str(latitude), str(longitude)
+        return str(latitude), str(longitude), str(altitude)
