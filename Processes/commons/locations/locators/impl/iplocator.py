@@ -1,7 +1,7 @@
-from GeoLocationProcess.locators.abstracts import Locator
+from commons.locations.locators.abstracts import Locator
 import urllib.request
 import json
-import GeoLocationProcess.locators.utils.ipaddr as iputils
+import commons.locations.locators.utils.ipaddr as iputils
 
 
 # Uses ipstack.com IP's GeoLocation API
@@ -16,7 +16,7 @@ class IPLocator(Locator):
     def __init__(self):
         pass
 
-    # Used to obtain the current location as a tuple: latitude(double), longitude(double)
+    # Used to obtain the current locations as a tuple: latitude(double), longitude(double)
     def get_location(self):
         req_url = "http://api.ipstack.com/" + iputils.get_ip_address() + "?access_key=" + IPLocator.API_ACCESS_KEY + "&format=1"
         result = urllib.request.urlopen(req_url).read()

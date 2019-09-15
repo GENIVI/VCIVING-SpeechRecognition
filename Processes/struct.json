@@ -4,16 +4,16 @@
   ],
   "processes": [
     {
-      "namespace" : "RandomQuestionsProcess",
-      "class": "RandomQuestionsProcess"
-    },
-    {
       "namespace" : "EavesdropProcess",
       "class": "EavesdropProcess"
     },
     {
       "namespace" : "GeoLocationProcess",
       "class": "GeoLocationProcess"
+    },
+    {
+      "namespace" : "GeoLocationQuestionsProcess",
+      "class": "GeoLocationQuestionsProcess"
     }
   ]
 }

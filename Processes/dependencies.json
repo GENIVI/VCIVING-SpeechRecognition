@@ -18,5 +18,17 @@
   "4": {
     "name": "requests",
     "version": "2.22.0"
+  },
+  "5": {
+    "name": "haversine",
+    "version": "2.1.2"
+  },
+  "6": {
+    "name": "numpy",
+    "version": "1.17.2"
+  },
+  "7": {
+    "name": "scipy",
+    "version": "1.3.1"
   }
 }

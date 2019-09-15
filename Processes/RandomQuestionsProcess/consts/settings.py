@@ -1,2 +1,0 @@
-
-QUESTION_IMPOSE_TIME_INTERVAL = "temp_random_question_time_interval"

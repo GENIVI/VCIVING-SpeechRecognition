@@ -34,11 +34,11 @@ class GeoLocationProcess(Process):
     def exec_iter(self):
         pass
 
-    # Resumes monitoring the location.
+    # Resumes monitoring the locations.
     def resume_process(self):
         self._sub_process_queue_send.put(consts_queue.PROCESS_FLAG_VALUE_RUN)
 
-    # Pauses monitoring the location.
+    # Pauses monitoring the locations.
     def pause_process(self):
         self._sub_process_queue_send.put(consts_queue.PROCESS_FLAG_VALUE_PAUSE)
 

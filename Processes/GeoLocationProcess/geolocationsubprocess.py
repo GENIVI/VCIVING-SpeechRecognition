@@ -1,17 +1,23 @@
 import multiprocessing
-from GeoLocationProcess.locators.impl.iplocator import IPLocator
+
+import commons.locations.log.utils.rw
+from commons.locations.locators.impl.iplocator import IPLocator
+from commons.locations.locators.impl.demolocator import DemoLocator
 import commons.consts.queue as consts_queue
 import commons.utils.queue as utils_queue
 import time
 from threading import Timer
-import GeoLocationProcess.utils.locationlog as utils_location_log
 
 
 def monitor_and_save_location(save_file_abs_path: str, record_intervals: int, queue_receive: multiprocessing.Queue, queue_send: multiprocessing.Queue):
     queue_send.put(consts_queue.PROCESS_FLAG_VALUE_SPAWNED)
 
     # We use IPLocator at the moment as we do not use the sensors up to now.
-    locator = IPLocator()
+    # locator = IPLocator()
+
+    # We will use DemoLocator for demonstration purposes
+    locator = DemoLocator()
+
     location_monitor_timer = None
 
     def exec_monitor_cycle():
@@ -20,7 +26,7 @@ def monitor_and_save_location(save_file_abs_path: str, record_intervals: int, qu
         location_timestamp = str(int(time.time()))
         location_latitude, location_longitude, location_altitude = locator.get_location()
 
-        utils_location_log.write_location_to_log_file(save_file_abs_path, location_timestamp, location_latitude, location_longitude, location_altitude)
+        commons.locations.log.utils.rw.write_location_to_log_file(save_file_abs_path, location_timestamp, location_latitude, location_longitude, location_altitude)
 
         location_monitor_timer = Timer(record_intervals, exec_monitor_cycle)
         location_monitor_timer.daemon = True
