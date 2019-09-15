@@ -2,7 +2,7 @@ from FindMapsExecutor.db.locationdb import LocationDB
 from FindMapsExecutor.db.preprocessors import LocationPreProcessor
 
 
-_db_file_path = "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.db"
+_db_file_path = "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/storage/us.locations"
 locations_to_test = ["Weedy Shoals", "Wedge Cape", "Pristuulax Anii", "Webster Lake", "Volcan Point", "McArthur Reef", "Webfoot Prospect", "Rio Tiajuana", "Udiix", "Guys Branch", "Stellwagen Basin", "Sonom Beach", "Cape Turner"]
 
 location_db = LocationDB(file_path=_db_file_path, db_flag=LocationDB.FLAG_DB_RDONLY)

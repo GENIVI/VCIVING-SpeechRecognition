@@ -4,9 +4,9 @@ from FindMapsExecutor.db.preprocessors import Chunker
 from FindMapsExecutor.db.preprocessors import LocationPreProcessor
 import time, datetime
 
-_data_file_path = "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/data/US.txt"
-_location_db_file_path = "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.locations"
-_mapper_db_file_path = "D:/GENIVI/Projects/TaskExecutors/FindMapsExecutor/db/storage/us.mapper"
+_data_file_path = "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/storage/data/US.txt"
+_location_db_file_path = "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/storage/us.locations"
+_mapper_db_file_path = "D:/Dev/GENIVI/Projects/TaskExecutors/FindMapsExecutor/storage/us.mapper"
 _verbose_mode = True
 _deep_chunking = False
 _data_batch_size = 10000
