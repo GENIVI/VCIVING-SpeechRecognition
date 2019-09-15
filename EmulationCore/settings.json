@@ -45,14 +45,10 @@
   },
   "geolocation_save_interval": {
     "display_key": "The interval(in seconds) at which the Geo Location of the device should be monitored.",
-    "value": "10"
+    "value": "2"
   },
   "geolocation_save_file_path": {
     "display_key": "Absolute path to the file in which Geo Locations are saved.",
     "value": "D:/Dev/GENIVI/Stage2/geolocation/log.locations"
-  },
-  "temp_random_question_time_interval": {
-    "display_key": "Temporary Key to store the the time interval between two questions",
-    "value": "30"
   }
 }
