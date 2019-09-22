@@ -39,10 +39,6 @@
     "display_key": "Time interval a recording should last (before breaking up for the next recording) (in seconds)",
     "value": "5"
   },
-  "eavesdrop_mode_save_folder_path": {
-    "display_key": "Absolute path to the folder in which the recorded audio is saved.",
-    "value": "D:/Dev/GENIVI/Stage2/eavesdrop"
-  },
   "geolocation_save_interval": {
     "display_key": "The interval(in seconds) at which the Geo Location of the device should be monitored.",
     "value": "2"
@@ -50,5 +46,9 @@
   "geolocation_save_file_path": {
     "display_key": "Absolute path to the file in which Geo Locations are saved.",
     "value": "D:/Dev/GENIVI/Stage2/geolocation/log.locations"
+  },
+  "geo_location_tagger_model_folder_path": {
+    "display_key": "Absolute path to the folder where Geo Location Tagging Model is placed.",
+    "value": "D:/Dev/GENIVI/Projects/Processes/UniversalModelTrainerProcess/storage/geolocation-model"
   }
 }
