@@ -36,7 +36,7 @@
     "version": "2.0.5"
   },
   "9": {
-    "name": "tensorflow-gpu",
+    "name": "tensorflow",
     "version": "1.14.0"
   },
   "10": {
