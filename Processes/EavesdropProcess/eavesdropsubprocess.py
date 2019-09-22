@@ -1,6 +1,8 @@
 import pyaudio
 import multiprocessing
 import EavesdropProcess.consts.recordings as consts_recording
+import commons.eavesdrop.config.dirs
+import commons.eavesdrop.consts.dirs as consts_eavesdrop_dirs
 import commons.consts.queue as consts_queue
 import commons.utils.queue as utils_queue
 import EavesdropProcess.utils.recordings as utils_recordings
@@ -8,13 +10,15 @@ import time
 import wave
 
 
-def capture_and_save_audio(audio_file_time: int, save_folder_path: str, queue_receive: multiprocessing.Queue, queue_send: multiprocessing.Queue):
+def capture_and_save_audio(audio_file_time: int, processes_namespace_folder_path: str, queue_receive: multiprocessing.Queue, queue_send: multiprocessing.Queue):
     queue_send.put(consts_queue.PROCESS_FLAG_VALUE_SPAWNED)
 
     pyaudio_obj = pyaudio.PyAudio()
     stream = pyaudio_obj.open(format=consts_recording.FORMAT, channels=consts_recording.CHANNELS,
                               rate=consts_recording.SAMPLING_RATE, input=True,
                               frames_per_buffer=consts_recording.CHUNK_SIZE)
+
+    save_folder_path = processes_namespace_folder_path + "/" + commons.eavesdrop.config.dirs.SAVE_FOLDER_DIR
 
     utils_recordings.convert_save_folder_to_eaves_folder(save_folder_path)
 

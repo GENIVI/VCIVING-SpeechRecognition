@@ -4,6 +4,7 @@ from emucorebrain.data.containers.settings import SettingsContainer
 from emucorebrain.data.models.lockers import LockerTypes
 from emucorebrain.processes.core import Process
 import emucorebrain.keywords.process as keywords_process
+import commons.keywords.settings as keywords_settings
 import EavesdropProcess.consts.settings as keywords_process_third_party
 import multiprocessing
 import commons.consts.queue as consts_queue
@@ -19,7 +20,7 @@ class EavesdropProcess(Process):
     def __init__(self):
         self._is_valid_process = False
         self._audio_file_time = 0
-        self._save_folder_path: str = None
+        self._processes_namespace_folder_path: str = None
         self._py_process_queue_receive = multiprocessing.Queue()
         self._py_process_queue_send = multiprocessing.Queue()
 
@@ -40,9 +41,9 @@ class EavesdropProcess(Process):
 
         if self._is_valid_process:
             self._audio_file_time = int(ivi_settings.get_setting(keywords_process_third_party.ARG_EAVESDROP_MODE_SAVE_INTERVAL))
-            self._save_folder_path = ivi_settings.get_setting(keywords_process_third_party.ARG_EAVESDROP_MODE_SAVE_FOLDER_PATH)
+            self._processes_namespace_folder_path = ivi_settings.get_setting(keywords_settings.ARG_PROCESSES_FOLDER_PATH)
 
-            self._process = multiprocessing.Process(target=eavesdropsubprocess.capture_and_save_audio, args=(self._audio_file_time, self._save_folder_path, self._py_process_queue_send, self._py_process_queue_receive))
+            self._process = multiprocessing.Process(target=eavesdropsubprocess.capture_and_save_audio, args=(self._audio_file_time, self._processes_namespace_folder_path, self._py_process_queue_send, self._py_process_queue_receive))
             self._process.daemon = True
             self._process.start()
 
