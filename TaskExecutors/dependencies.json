@@ -46,5 +46,9 @@
   "12": {
     "name": "SpeechRecognition",
     "version": "3.8.1"
+  },
+  "13": {
+    "name": "reverse_geocoder",
+    "version": "1.5.1"
   }
 }

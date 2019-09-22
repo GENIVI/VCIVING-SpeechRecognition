@@ -211,6 +211,46 @@ class FindMapsExecutor(TaskExecutor):
         te_locker_id_outs_mechanisms = ivi_lockers.add_locker(LockerTypes.OUTPUT_MECHANISMS)
 
         ivi_outs_mechanism_default.write_data("Please wait while we look for the location for you.", wait_until_completed=True)
+
+        # Temporary code used for demonstrations.
+        # if "favorite place" in data.get_data().lower() or "favorite places" in data.get_data().lower() or "favourite place" in data.get_data().lower() or "favourite places" in data.get_data().lower():
+        #     from FindMapsExecutor.temp.preferredgeolocations import PreferredGeoLocationsModel
+        #     from haversine import haversine, Unit
+        #     import reverse_geocoder as rgc
+        #
+        #     preferred_locations_model_path = "D:/Dev/GENIVI/Projects/Processes/commons/storage/universalmodel/prefgeolocs.json"
+        #     preferred_locations_model: PreferredGeoLocationsModel = PreferredGeoLocationsModel(preferred_locations_model_path)
+        #     preferred_locations = preferred_locations_model.get_all_locations()
+        #
+        #     # Current location is hardcoded here for easy demonstration as support for obtaining current
+        #     # geo-location in a task executor is not added yet.
+        #     current_location = {
+        #         "latitude": 25.761681,
+        #         "longitude": -80.191788
+        #     }
+        #     current_location_tuple = (current_location["latitude"], current_location["longitude"])
+        #
+        #     least_distance = -1
+        #     location_least_distance = None
+        #     for preferred_location in preferred_locations:
+        #         preferred_location_tuple = (preferred_location["latitude"], preferred_location["longitude"])
+        #         distance_gap = abs(haversine(current_location_tuple, preferred_location_tuple, unit=Unit.KILOMETERS))
+        #         if distance_gap <= least_distance or least_distance == -1:
+        #             least_distance = distance_gap
+        #             location_least_distance = preferred_location
+        #
+        #     # Reverse Geo-Coding for location_least_distance
+        #     location_least_distance_tuple = (location_least_distance["latitude"], location_least_distance["latitude"])
+        #     result_reverse_geo_code = rgc.search(location_least_distance_tuple, mode=1)[0]
+        #     location_least_distance_name = result_reverse_geo_code["name"]
+        #
+        #     ivi_outs_mechanism_default.write_data("Your favorite location " + location_least_distance_name + " is " + str(round(least_distance, 2)) + " kilometers away from here.", wait_until_completed=True)
+        #
+        #     ivi_lockers.remove_locker(te_locker_id_ins_mechanisms)
+        #     ivi_lockers.remove_locker(te_locker_id_outs_mechanisms)
+        #
+        #     return
+
         db_location_filepath = ivi_settings.get_setting(consts_location_db.SETTING_LOCATION_DB_NAMES_FILEPATH_KEY)
         db_mapper_filepath = ivi_settings.get_setting(consts_location_db.SETTING_LOCATION_DB_MAPPERS_FILEPATH_KEY)
         predictor = Predictor(db_location_filepath, db_mapper_filepath)
