@@ -2,6 +2,6 @@ PyAudio==0.2.11
 pyttsx3==2.7
 SpeechRecognition==3.8.1
 numpy
-nltk==3.3
+nltk==3.6.3
 emucorebrain==0.5.4
 pip==9.0.3
